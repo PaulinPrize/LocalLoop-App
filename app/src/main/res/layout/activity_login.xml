@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="24dp">
-
+    <!-- Email: will get the user input  -->
     <EditText
         android:id="@+id/emailInput"
         android:layout_width="0dp"
@@ -15,7 +15,7 @@
         app:layout_constraintRight_toRightOf="parent"
         android:inputType="textEmailAddress"
         android:layout_marginTop="100dp"/>
-
+    <!-- Password: will get the Password from the user  -->
     <EditText
         android:id="@+id/passwordInput"
         android:layout_width="0dp"
@@ -26,7 +26,7 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         android:layout_marginTop="16dp"/>
-
+    <!--  this is the Login Button where it comand to login  -->
     <Button
         android:id="@+id/loginButton"
         android:layout_width="0dp"
@@ -36,5 +36,30 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         android:layout_marginTop="24dp"/>
+
+    <!-- Sign Up Button to comand the user to signup to a new account -->
+
+    <Button
+        android:id="@+id/createAccountButton"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Create Account"
+        app:layout_constraintTop_toBottomOf="@id/loginButton"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="16dp" />
+
+    <!-- Exit Button if the user needs to exit the signup or login page we will take that in concedaration and create this button  -->
+    <Button
+        android:id="@+id/exitButton"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Exit"
+        app:layout_constraintTop_toBottomOf="@id/createAccountButton"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="16dp" />
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

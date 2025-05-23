@@ -29,7 +29,7 @@ public class MyFirebaseDatabase {
     * @param role the user's role, either an admin, an organizer or a participant
     */
     
-    protected void createRow(String email, String firstname, int id, String lastname, String password, String role){
+    public void createRow(String email, String firstname, int id, String lastname, String password, String role){
         // opens a connection with firebase
         // the variable database represents our specific database
         FirebaseDatabase database = FirebaseDatabase.getInstance();
