@@ -22,15 +22,11 @@ public class UserAdapter extends ArrayAdapter<String> {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        // Reuse the recycled view or inflate a new one if necessary
         if (convertView == null) {
             convertView = LayoutInflater.from(context).inflate(R.layout.user_list_item, parent, false);
         }
 
-        // Get the current user data
         String userInfo = getItem(position);
-
-        // Set the user info in the corresponding TextView
         TextView userTextView = convertView.findViewById(R.id.userTextView);
         userTextView.setText(userInfo);
 

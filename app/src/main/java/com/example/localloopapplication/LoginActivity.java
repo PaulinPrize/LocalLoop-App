@@ -2,7 +2,6 @@ package com.example.localloop;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -33,6 +32,7 @@ public class LoginActivity extends AppCompatActivity {
         loginButton.setOnClickListener(v -> loginUser());
     }
 
+    // Method to log in the user
     private void loginUser() {
         String email = emailInput.getText().toString().trim();
         String password = passwordInput.getText().toString().trim();
@@ -58,6 +58,7 @@ public class LoginActivity extends AppCompatActivity {
                 });
     }
 
+    // Navigate to the welcome screen based on role
     private void navigateToWelcomeScreen(FirebaseUser user) {
         // Check if the user is admin or regular user (could be Organizer/Participant)
         String email = user.getEmail();

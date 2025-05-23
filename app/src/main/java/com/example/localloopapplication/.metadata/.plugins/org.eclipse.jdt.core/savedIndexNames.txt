@@ -1,0 +1,2 @@
+INDEX VERSION 1.134+C:\Users\user\Desktop\Second Semester\SEG2105 Z00 Intro To Software Engineering\Project Deliverables\Deliverable 1\LocalLoop-App\app\src\main\java\com\example\localloopapplication\.metadata\.plugins\org.eclipse.jdt.core
+1865797976.index

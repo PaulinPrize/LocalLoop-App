@@ -37,6 +37,7 @@ public class RegisterActivity extends AppCompatActivity {
         registerButton.setOnClickListener(v -> registerUser());
     }
 
+    // Method to register the user
     private void registerUser() {
         String email = emailInput.getText().toString().trim();
         String password = passwordInput.getText().toString().trim();
@@ -48,13 +49,16 @@ public class RegisterActivity extends AppCompatActivity {
             return;
         }
 
+        // Create user with email and password in Firebase Auth
         mAuth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, task -> {
                     if (task.isSuccessful()) {
-                        String role = "Participant"; // Default role, could be Organizer or Participant
+                        // Get the role (default is Participant)
+                        String role = "Participant";  // Default role, could be Organizer or Participant
                         String userId = mAuth.getCurrentUser().getUid();
                         User newUser = new User(firstName, lastName, email, role);
 
+                        // Store user data in Firebase Realtime Database
                         mDatabase.child(userId).setValue(newUser)
                                 .addOnCompleteListener(databaseTask -> {
                                     if (databaseTask.isSuccessful()) {
