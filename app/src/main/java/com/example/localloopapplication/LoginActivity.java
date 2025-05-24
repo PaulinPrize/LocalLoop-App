@@ -8,12 +8,17 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.*;
 
 public class LoginActivity extends AppCompatActivity {
 
     private EditText emailInput;
     private EditText passwordInput;
     private Button loginButton;
+
+    private FirebaseAuth auth;
+    private DatabaseReference userRef;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,6 +29,9 @@ public class LoginActivity extends AppCompatActivity {
         passwordInput = findViewById(R.id.passwordInput);
         loginButton = findViewById(R.id.loginButton);
 
+        auth = FirebaseAuth.getInstance();
+        userRef = FirebaseDatabase.getInstance().getReference("users");
+
         loginButton.setOnClickListener(v -> {
             String email = emailInput.getText().toString().trim();
             String password = passwordInput.getText().toString().trim();
@@ -32,15 +40,34 @@ public class LoginActivity extends AppCompatActivity {
                 Toast.makeText(this, "Please fill all fields", Toast.LENGTH_SHORT).show();
                 return;
             }
-
-            if (email.equals("admin") && password.equals("XPI76SZUqyCjVxgnUjm0")) {
+            if (email.equals("admin@gmail.com") && password.equals("XPI76SZUqyCjVxgnUjm0")) {
                 Intent intent = new Intent(LoginActivity.this, WelcomeActivity.class);
-                intent.putExtra("firstName", "Admin");
-                intent.putExtra("role", "admin");
+                intent.putExtra("firstname", "Admin");
+                intent.putExtra("role", "Admin");
                 startActivity(intent);
-            } else {
-                Toast.makeText(this, "Invalid credentials", Toast.LENGTH_SHORT).show();
+                finish();
+                return;
             }
+
+            auth.signInWithEmailAndPassword(email, password).addOnSuccessListener(authResult -> {
+                String uid = auth.getCurrentUser().getUid();
+                userRef.child(uid).get().addOnSuccessListener(snapshot -> {
+                    if (snapshot.exists()) {
+                        String firstname = snapshot.child("firstname").getValue(String.class);
+                        String role = snapshot.child("role").getValue(String.class);
+
+                        Intent intent = new Intent(LoginActivity.this, WelcomeActivity.class);
+                        intent.putExtra("firstname", firstname);
+                        intent.putExtra("role", role);
+                        startActivity(intent);
+                        finish();
+                    } else {
+                        Toast.makeText(this, "User not found", Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }).addOnFailureListener(e -> {
+                Toast.makeText(this, "Connection failed : " + e.getMessage(), Toast.LENGTH_LONG).show();
+            });
         });
     }
 }

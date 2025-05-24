@@ -1,11 +1,13 @@
 package com.example.localloopapplication;
 
 public class User {
-    protected String firstName;
-    protected String lastName;
-    protected String email;
-    protected String password;
-    protected String role;
+    public String firstName;
+    public String lastName;
+    public String email;
+    public String password;
+    public String role;
+
+    public User(){}
 
     public User(String firstName, String lastName, String email, String password, String role) {
         this.firstName = firstName;
@@ -13,9 +15,5 @@ public class User {
         this.email = email;
         this.password = password;
         this.role = role;
-    }
-
-    public String getFirstName() {
-        return firstName;
     }
 }
