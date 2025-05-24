@@ -1,5 +1,11 @@
+ User-Interface
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="Theme.Localloop" parent="android:Theme.Material.Light.NoActionBar" />
-</resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
+    
+    <style name="Base.Theme.LocalLoopApplication" parent="Theme.Material3.DayNight.NoActionBar">
+       
+    </style>
+
+    <style name="Theme.LocalLoopApplication" parent="Base.Theme.LocalLoopApplication" />
