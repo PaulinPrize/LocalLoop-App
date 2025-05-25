@@ -23,6 +23,7 @@
 
         <activity android:name=".WelcomeActivity" android:exported="false" />
         <activity android:name=".MainActivity" android:exported="false" />
+        <activity android:name=".RegisterActivity" /> //Adding the button register in the login menu
 
     </application>
 </manifest>
