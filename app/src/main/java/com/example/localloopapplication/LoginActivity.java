@@ -16,6 +16,7 @@ public class LoginActivity extends AppCompatActivity {
     private EditText emailInput;
     private EditText passwordInput;
     private Button loginButton;
+    private Button registerNavButton;
 
     private FirebaseAuth auth;
     private DatabaseReference userRef;
@@ -28,6 +29,7 @@ public class LoginActivity extends AppCompatActivity {
         emailInput = findViewById(R.id.emailInput);         // IDs from XML
         passwordInput = findViewById(R.id.passwordInput);
         loginButton = findViewById(R.id.loginButton);
+        registerNavButton = findViewById(R.id.registerNavButton);
 
         auth = FirebaseAuth.getInstance();
         userRef = FirebaseDatabase.getInstance().getReference("users");
@@ -68,6 +70,11 @@ public class LoginActivity extends AppCompatActivity {
             }).addOnFailureListener(e -> {
                 Toast.makeText(this, "Connection failed : " + e.getMessage(), Toast.LENGTH_LONG).show();
             });
+        });
+
+        registerNavButton.setOnClickListener(v -> {
+            Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
+            startActivity(intent);
         });
     }
 }
