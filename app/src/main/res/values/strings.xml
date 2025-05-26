@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">LocalLoop Application</string>
+    <string-array name="roles_array">
+        <item>Organizer</item>
+        <item>Participant</item>
+    </string-array>
 </resources>
+
+

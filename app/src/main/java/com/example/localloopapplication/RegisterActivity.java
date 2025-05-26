@@ -3,8 +3,10 @@ package com.example.localloopapplication;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import com.google.firebase.auth.FirebaseAuth;
@@ -14,8 +16,10 @@ import java.util.HashMap;
 
 public class RegisterActivity extends AppCompatActivity {
 
-    private EditText firstNameInput, lastNameInput, emailInput, passwordInput, roleInput;
+    private EditText firstNameInput, lastNameInput, emailInput, passwordInput;
     private Button registerButton;
+    private Spinner roleSpinner;
+
 
     private FirebaseAuth auth;
     private DatabaseReference userRef;
@@ -29,8 +33,13 @@ public class RegisterActivity extends AppCompatActivity {
         lastNameInput = findViewById(R.id.lastNameInput);
         emailInput = findViewById(R.id.emailInput);
         passwordInput = findViewById(R.id.passwordInput);
-        roleInput = findViewById(R.id.roleInput);
+        roleSpinner = findViewById(R.id.roleInput);
         registerButton = findViewById(R.id.registerButton);
+
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
+                R.array.roles_array, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        roleSpinner.setAdapter(adapter);
 
         // Initialiser Firebase
         auth = FirebaseAuth.getInstance();
@@ -43,7 +52,7 @@ public class RegisterActivity extends AppCompatActivity {
                 String lastName = lastNameInput.getText().toString().trim();
                 String email = emailInput.getText().toString().trim();
                 String password = passwordInput.getText().toString().trim();
-                String role = roleInput.getText().toString().trim().toLowerCase();
+                String role = roleSpinner.getSelectedItem().toString().toLowerCase();
 
                 if (firstName.isEmpty() || !isAlpha(firstName)) {
                     showToast("Enter a valid first name (letters only)");
@@ -59,10 +68,6 @@ public class RegisterActivity extends AppCompatActivity {
                 }
                 if (!isValidPassword(password)) {
                     showToast("Password must be 6+ chars, include uppercase, digit, and symbol");
-                    return;
-                }
-                if (!isValidRole(role)) {
-                    showToast("Role must be 'organizer' or 'participant'");
                     return;
                 }
 
