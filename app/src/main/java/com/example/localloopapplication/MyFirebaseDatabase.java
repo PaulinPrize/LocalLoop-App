@@ -49,7 +49,7 @@ public class MyFirebaseDatabase {
             userData.put("lastname", lastname);
             userData.put("password", password);
             userData.put("role", role);
-            // these three lines create a hashmap with the user's data
+            // these lines create a hashmap with the user's data
             Task<Void> voidTask = usersRef.child(userId).setValue(userData)
                     .addOnSuccessListener(aVoid -> {
                         Log.d("Firebase", "User created successfully");
@@ -61,4 +61,34 @@ public class MyFirebaseDatabase {
         }
 
     }
+
+    protected void createEventCategory(String categoryToBeAdded){
+        // opens a connection with firebase
+        // the variable database represents our specific database
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        // this creates a node "event_categories" inside the json tree
+        // can be thought of as an individual sheet in google sheets or excel
+        // in it we have different child keys for event categories the app
+        DatabaseReference eventCategoryRef = database.getReference("event_categories");
+
+        // makes a unique child key under "event_categories" for one user
+        String eventCategoryID = eventCategoryRef.push().getKey();
+
+        if(eventCategoryID!=null){
+            Map<String, String> eventCategory = new HashMap<>();
+            eventCategory.put("category_name",categoryToBeAdded);
+            // these lines create a hashmap with the event category
+        }
+        Task<Void> voidTask = usersRef.child(eventCategoryID).setValue(eventCategory)
+                .addOnSuccessListener(aVoid -> {
+                    Log.d("Firebase", "Event category created successfully");
+                })
+                .addOnFailureListener(e -> {
+                    Log.d("Firebase", "Failed to create event category", e);
+                }); // messages on the android logcat console to help in debugging
+        ;
+
+    }
+
+
 }
