@@ -29,7 +29,7 @@ public class MyFirebaseDatabase {
     * @param role the user's role, either an admin, an organizer or a participant
     */
     
-    protected void createRow(String email, String firstname, int id, String lastname, String password, String role){
+    protected static void createRow(String email, String firstname, int id, String lastname, String password, String role){
         // opens a connection with firebase
         // the variable database represents our specific database
         FirebaseDatabase database = FirebaseDatabase.getInstance();
@@ -62,7 +62,7 @@ public class MyFirebaseDatabase {
 
     }
 
-    protected void createEventCategory(String categoryToBeAdded){
+    protected static void createEventCategory(String categoryToBeAdded){
         // opens a connection with firebase
         // the variable database represents our specific database
         FirebaseDatabase database = FirebaseDatabase.getInstance();
@@ -88,6 +88,38 @@ public class MyFirebaseDatabase {
                 }); // messages on the android logcat console to help in debugging
         ;
 
+    }
+
+    // the following method is meant to get all child nodes of a node in the firebase
+    // it can be used for getting all users
+    // and also for getting all event categories
+    // @param reference the database reference
+    // @param nodeName the name of the node whose elements are being returned
+    public void getAllChildNodes(DatabaseReference reference, String nodeName){
+
+        reference.child(nodeName).addListenerForSingleValueEvent(new ValueEventListener(){
+            @Override
+            // dataSnapshot is pointing to nodeName
+            public void onDataChange(DataSnapshot dataSnapshot){
+                // itetrating over the child nodes
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()){
+                    // getting the key and values of each child node
+                    String theKey = snapshot.getKey();
+                    Strng description = snapshot.child("description").getValue(String.class);
+                    // printing logcat debug messages
+                    Log.d("Firebase","Category" + theKey+", Description: "+description);
+                    // i can store data here however i want
+                    // i need to store the data in a list or other type of object i can use
+                    // to be able to return it
+
+                }
+            }
+            @Override
+            // provides an error message
+            public void onCancelled(DatabaseError databaseError){
+                Log.w("Firebase","loadCategories:onCancelled",databaseError.toException())
+            }
+        });
     }
 
 
