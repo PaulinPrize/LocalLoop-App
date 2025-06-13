@@ -60,9 +60,10 @@ public class AdminWelcomeActivity extends AppCompatActivity {
         loadUsers();
     }
 
-
+//This method retrieve data from the database
     private void loadUsers() {
         mDatabase.addValueEventListener(new ValueEventListener() {
+
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 userList.clear();

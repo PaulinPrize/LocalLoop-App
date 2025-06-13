@@ -24,14 +24,17 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);  // Make sure this file exists
+        setContentView(R.layout.activity_login);
 
         emailInput = findViewById(R.id.emailInput);         // IDs from XML
         passwordInput = findViewById(R.id.passwordInput);
         loginButton = findViewById(R.id.loginButton);
         registerNavButton = findViewById(R.id.registerNavButton);
 
+        //Connecting to the database
         auth = FirebaseAuth.getInstance();
+
+        //Making sure we have the right FireBase path
         userRef = FirebaseDatabase.getInstance().getReference("users");
 
         loginButton.setOnClickListener(v -> {
@@ -42,12 +45,24 @@ public class LoginActivity extends AppCompatActivity {
                 Toast.makeText(this, "Please fill all fields", Toast.LENGTH_SHORT).show();
                 return;
             }
+
+            //Checking if the user is the Adimn
             if (email.equals("admin@gmail.com") && password.equals("XPI76SZUqyCjVxgnUjm0")) {
+
+                //Creating a new intent in other to call the WelcomeActivity class after the admin successfully log in
                 Intent intent = new Intent(LoginActivity.this, AdminWelcomeActivity.class);
+
+                //Adding extended data to the intent
                 intent.putExtra("firstname", "Admin");
                 intent.putExtra("role", "Admin");
+
+                //Run the intent
                 startActivity(intent);
+
+                //Terminating the activity and set resources free for other intents
                 finish();
+
+                //Stop executing and exit the method
                 return;
             }
 
@@ -55,14 +70,23 @@ public class LoginActivity extends AppCompatActivity {
                 String uid = auth.getCurrentUser().getUid();
                 userRef.child(uid).get().addOnSuccessListener(snapshot -> {
                     if (snapshot.exists()) {
+
                         String firstname = snapshot.child("firstname").getValue(String.class);
                         String role = snapshot.child("role").getValue(String.class);
 
+                        //Creating a new intent in other to call the WelcomeActivity class after the admin successfully log in
                         Intent intent = new Intent(LoginActivity.this, WelcomeActivity.class);
+
+                        //Adding extended data to the intent
                         intent.putExtra("firstname", firstname);
                         intent.putExtra("role", role);
+
+                        //Run the intent
                         startActivity(intent);
+
+                        //Terminating the activity and set resources free for other intents
                         finish();
+
                     } else {
                         Toast.makeText(this, "User not found", Toast.LENGTH_SHORT).show();
                     }
@@ -73,7 +97,10 @@ public class LoginActivity extends AppCompatActivity {
         });
 
         registerNavButton.setOnClickListener(v -> {
+            //Creating a new intent in other to call the RegisterActivity class after the register button has been clicked
             Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
+
+            ////Run the intent
             startActivity(intent);
         });
     }
