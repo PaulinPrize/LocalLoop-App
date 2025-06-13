@@ -1,0 +1,39 @@
+package com.example.localloopapplication;
+import android.content.Intent;
+import android.os.Bundle;
+import android.widget.ListView;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import com.example.localloopapplication.User;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.ArrayList;
+
+public class UserDetailsActivity extends AppCompatActivity {
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.user_list_item); //user layout
+
+        TextView fullNameText = findViewById(R.id.fullNameText);
+        TextView emailText = findViewById(R.id.emailText);
+        TextView roleText = findViewById(R.id.roleText);
+
+        // Get data from intent
+        String firstName = getIntent().getStringExtra("firstName");
+        String lastName = getIntent().getStringExtra("lastName");
+        String email = getIntent().getStringExtra("email");
+        String role = getIntent().getStringExtra("role");
+
+        fullNameText.setText(firstName + " " + lastName);
+        emailText.setText(email);
+        roleText.setText(role);
+    }
+}

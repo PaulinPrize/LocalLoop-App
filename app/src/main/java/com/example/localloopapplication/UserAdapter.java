@@ -1,5 +1,4 @@
-package com.example.localloop;
-
+package com.example.localloopapplication;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -7,14 +6,16 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
+import com.example.localloopapplication.User;
+
 import java.util.ArrayList;
 
-public class UserAdapter extends ArrayAdapter<String> {
+public class UserAdapter extends ArrayAdapter<User> {
 
     private Context context;
-    private ArrayList<String> users;
+    private ArrayList<User> users;
 
-    public UserAdapter(Context context, ArrayList<String> users) {
+    public UserAdapter(Context context, ArrayList<User> users) {
         super(context, 0, users);
         this.context = context;
         this.users = users;
@@ -23,12 +24,12 @@ public class UserAdapter extends ArrayAdapter<String> {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         if (convertView == null) {
-            convertView = LayoutInflater.from(context).inflate(R.layout.user_list_item, parent, false);
+            convertView = LayoutInflater.from(context).inflate(android.R.layout.simple_list_item_1, parent, false);
         }
 
-        String userInfo = getItem(position);
-        TextView userTextView = convertView.findViewById(R.id.userTextView);
-        userTextView.setText(userInfo);
+        User user = getItem(position);
+        TextView textView = (TextView) convertView.findViewById(android.R.id.text1);
+        textView.setText(user.getFullName() + " (" + user.email + ")");
 
         return convertView;
     }

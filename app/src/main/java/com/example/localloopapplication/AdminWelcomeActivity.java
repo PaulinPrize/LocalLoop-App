@@ -1,5 +1,6 @@
-package com.example.localloop;
+package com.example.localloopapplication;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -7,6 +8,7 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.localloopapplication.User;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -19,10 +21,11 @@ public class AdminWelcomeActivity extends AppCompatActivity {
 
     private TextView welcomeText;
     private ListView userListView; // ListView to display user data
-    private ArrayList<String> userList; // List to hold the user data (email, name, etc.)
-    private UserAdapter adapter;
+    //private ArrayList<String> userList; // List to hold the user data (email, name, etc.)
+    private com.example.localloopapplication.UserAdapter adapter;
 
     private DatabaseReference mDatabase;
+    private ArrayList<User> userList; // Store User objects now
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,8 +37,21 @@ public class AdminWelcomeActivity extends AppCompatActivity {
         userListView = findViewById(R.id.userListView);
 
         userList = new ArrayList<>();
-        adapter = new UserAdapter(this, userList); // Custom adapter to populate ListView
+        adapter = new com.example.localloopapplication.UserAdapter(this, userList);
         userListView.setAdapter(adapter);
+
+        // Set item click listener here
+        userListView.setOnItemClickListener((parent, view, position, id) -> {
+            User clickedUser = userList.get(position);
+
+            Intent intent = new Intent(AdminWelcomeActivity.this, UserDetailsActivity.class);
+            intent.putExtra("email", clickedUser.email);
+            intent.putExtra("firstName", clickedUser.firstName);
+            intent.putExtra("lastName", clickedUser.lastName);
+            intent.putExtra("role", clickedUser.role);
+
+            startActivity(intent);
+        });
 
         // Get reference to Firebase Realtime Database
         mDatabase = FirebaseDatabase.getInstance().getReference("users");
@@ -44,27 +60,19 @@ public class AdminWelcomeActivity extends AppCompatActivity {
         loadUsers();
     }
 
+
     private void loadUsers() {
         mDatabase.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                userList.clear(); // Clear the previous list
+                userList.clear();
 
-                // Iterate through all users in the "users" node
                 for (DataSnapshot userSnapshot : dataSnapshot.getChildren()) {
-                    String email = userSnapshot.child("email").getValue(String.class);
-                    String firstName = userSnapshot.child("firstname").getValue(String.class);
-                    String lastName = userSnapshot.child("lastname").getValue(String.class);
-                    String role = userSnapshot.child("role").getValue(String.class);
-
-                    // Format the user data (email, first name, last name, and role)
-                    String userInfo = firstName + " " + lastName + " (" + email + ") - " + role;
-
-                    // Add the formatted user info to the list
-                    userList.add(userInfo);
+                    User user = userSnapshot.getValue(User.class);
+                    if (user != null) {
+                        userList.add(user);
+                    }
                 }
-
-                // Notify the adapter to update the ListView
                 adapter.notifyDataSetChanged();
             }
 
@@ -75,4 +83,5 @@ public class AdminWelcomeActivity extends AppCompatActivity {
             }
         });
     }
+
 }

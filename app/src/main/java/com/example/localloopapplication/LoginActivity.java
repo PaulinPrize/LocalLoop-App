@@ -43,7 +43,7 @@ public class LoginActivity extends AppCompatActivity {
                 return;
             }
             if (email.equals("admin@gmail.com") && password.equals("XPI76SZUqyCjVxgnUjm0")) {
-                Intent intent = new Intent(LoginActivity.this, WelcomeActivity.class);
+                Intent intent = new Intent(LoginActivity.this, AdminWelcomeActivity.class);
                 intent.putExtra("firstname", "Admin");
                 intent.putExtra("role", "Admin");
                 startActivity(intent);
