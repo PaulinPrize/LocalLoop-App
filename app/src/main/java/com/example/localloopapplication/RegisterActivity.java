@@ -1,76 +1,117 @@
-package com.example.localloop;
+package com.example.localloopapplication;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.Toast;
-
 import androidx.appcompat.app.AppCompatActivity;
-
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import java.util.HashMap;
 
 public class RegisterActivity extends AppCompatActivity {
 
-    private FirebaseAuth mAuth;
-    private DatabaseReference mDatabase;
-    private EditText emailInput, passwordInput, firstNameInput, lastNameInput;
+    private EditText firstNameInput, lastNameInput, emailInput, passwordInput;
     private Button registerButton;
+    private Spinner roleSpinner;
+
+
+    private FirebaseAuth auth;
+    private DatabaseReference userRef;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
 
-        mAuth = FirebaseAuth.getInstance();
-        mDatabase = FirebaseDatabase.getInstance().getReference("users");
-
-        // Initialize UI components
-        emailInput = findViewById(R.id.emailInput);
-        passwordInput = findViewById(R.id.passwordInput);
         firstNameInput = findViewById(R.id.firstNameInput);
         lastNameInput = findViewById(R.id.lastNameInput);
+        emailInput = findViewById(R.id.emailInput);
+        passwordInput = findViewById(R.id.passwordInput);
+        roleSpinner = findViewById(R.id.roleInput);
         registerButton = findViewById(R.id.registerButton);
 
-        registerButton.setOnClickListener(v -> registerUser());
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
+                R.array.roles_array, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        roleSpinner.setAdapter(adapter);
+
+        // Initialiser Firebase
+        auth = FirebaseAuth.getInstance();
+        userRef = FirebaseDatabase.getInstance().getReference("users");
+
+        registerButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String firstName = firstNameInput.getText().toString().trim();
+                String lastName = lastNameInput.getText().toString().trim();
+                String email = emailInput.getText().toString().trim();
+                String password = passwordInput.getText().toString().trim();
+                String role = roleSpinner.getSelectedItem().toString().toLowerCase();
+
+                if (firstName.isEmpty() || !isAlpha(firstName)) {
+                    showToast("Enter a valid first name (letters only)");
+                    return;
+                }
+                if (lastName.isEmpty() || !isAlpha(lastName)) {
+                    showToast("Enter a valid last name (letters only)");
+                    return;
+                }
+                if (!isValidEmail(email)) {
+                    showToast("Enter a valid email address");
+                    return;
+                }
+                if (!isValidPassword(password)) {
+                    showToast("Password must be 6+ chars, include uppercase, digit, and symbol");
+                    return;
+                }
+
+                // Créer un compte Firebase
+                auth.createUserWithEmailAndPassword(email, password).addOnSuccessListener(authResult -> {
+                    String uid = auth.getCurrentUser().getUid();
+
+                    // Enregistrer les données dans la Realtime Database
+                    HashMap<String, Object> userMap = new HashMap<>();
+                    userMap.put("firstname", firstName);
+                    userMap.put("lastname", lastName);
+                    userMap.put("email", email);
+                    userMap.put("role", role);
+
+                    userRef.child(uid).setValue(userMap).addOnSuccessListener(unused -> {
+                        showToast("Registration successful");
+                        startActivity(new Intent(RegisterActivity.this, LoginActivity.class));
+                        finish();
+                    }).addOnFailureListener(e -> {
+                        showToast("Failed to save user data: " + e.getMessage());
+                    });
+                }).addOnFailureListener(e -> {
+                    showToast("Registration failed: " + e.getMessage());
+                });
+            }
+        });
+    }
+    private boolean isAlpha(String input) {
+        return input.matches("[a-zA-Z]+");
     }
 
-    // Method to register the user
-    private void registerUser() {
-        String email = emailInput.getText().toString().trim();
-        String password = passwordInput.getText().toString().trim();
-        String firstName = firstNameInput.getText().toString().trim();
-        String lastName = lastNameInput.getText().toString().trim();
+    private boolean isValidEmail(String email) {
+        return android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches();
+    }
 
-        if (email.isEmpty() || password.isEmpty() || firstName.isEmpty() || lastName.isEmpty()) {
-            Toast.makeText(RegisterActivity.this, "Please fill out all fields", Toast.LENGTH_SHORT).show();
-            return;
-        }
+    private boolean isValidPassword(String password) {
+        return password.length() >= 6 && password.matches(".*[A-Z].*") && password.matches(".*[a-z].*") && password.matches(".*\\d.*") && password.matches(".*[!@#$%^&*+=?-].*");
+    }
 
-        // Create user with email and password in Firebase Auth
-        mAuth.createUserWithEmailAndPassword(email, password)
-                .addOnCompleteListener(this, task -> {
-                    if (task.isSuccessful()) {
-                        // Get the role (default is Participant)
-                        String role = "Participant";  // Default role, could be Organizer or Participant
-                        String userId = mAuth.getCurrentUser().getUid();
-                        User newUser = new User(firstName, lastName, email, role);
+    private boolean isValidRole(String role) {
+        return role.equalsIgnoreCase("organizer") || role.equalsIgnoreCase("participant");
+    }
 
-                        // Store user data in Firebase Realtime Database
-                        mDatabase.child(userId).setValue(newUser)
-                                .addOnCompleteListener(databaseTask -> {
-                                    if (databaseTask.isSuccessful()) {
-                                        Toast.makeText(RegisterActivity.this, "Registration successful!", Toast.LENGTH_SHORT).show();
-                                        finish();  // Go back to login screen
-                                    } else {
-                                        Toast.makeText(RegisterActivity.this, "Failed to store user data", Toast.LENGTH_SHORT).show();
-                                    }
-                                });
-                    } else {
-                        Toast.makeText(RegisterActivity.this, "Registration failed", Toast.LENGTH_SHORT).show();
-                    }
-                });
+    private void showToast(String msg) {
+        Toast.makeText(RegisterActivity.this, msg, Toast.LENGTH_SHORT).show();
     }
 }

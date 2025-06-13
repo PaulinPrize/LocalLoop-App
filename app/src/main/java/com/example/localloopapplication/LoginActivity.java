@@ -1,72 +1,80 @@
-package com.example.localloop;
+package com.example.localloopapplication;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
-
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.*;
 
 public class LoginActivity extends AppCompatActivity {
 
-    private FirebaseAuth mAuth;
-    private EditText emailInput, passwordInput;
+    private EditText emailInput;
+    private EditText passwordInput;
     private Button loginButton;
+    private Button registerNavButton;
+
+    private FirebaseAuth auth;
+    private DatabaseReference userRef;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
+        setContentView(R.layout.activity_login);  // Make sure this file exists
 
-        mAuth = FirebaseAuth.getInstance();
-
-        // Initialize UI components
-        emailInput = findViewById(R.id.emailInput);
+        emailInput = findViewById(R.id.emailInput);         // IDs from XML
         passwordInput = findViewById(R.id.passwordInput);
         loginButton = findViewById(R.id.loginButton);
+        registerNavButton = findViewById(R.id.registerNavButton);
 
-        loginButton.setOnClickListener(v -> loginUser());
-    }
+        auth = FirebaseAuth.getInstance();
+        userRef = FirebaseDatabase.getInstance().getReference("users");
 
-    // Method to log in the user
-    private void loginUser() {
-        String email = emailInput.getText().toString().trim();
-        String password = passwordInput.getText().toString().trim();
+        loginButton.setOnClickListener(v -> {
+            String email = emailInput.getText().toString().trim();
+            String password = passwordInput.getText().toString().trim();
 
-        if (email.isEmpty() || password.isEmpty()) {
-            Toast.makeText(LoginActivity.this, "Please fill out all fields", Toast.LENGTH_SHORT).show();
-            return;
-        }
+            if (TextUtils.isEmpty(email) || TextUtils.isEmpty(password)) {
+                Toast.makeText(this, "Please fill all fields", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            if (email.equals("admin@gmail.com") && password.equals("XPI76SZUqyCjVxgnUjm0")) {
+                Intent intent = new Intent(LoginActivity.this, WelcomeActivity.class);
+                intent.putExtra("firstname", "Admin");
+                intent.putExtra("role", "Admin");
+                startActivity(intent);
+                finish();
+                return;
+            }
 
-        // Firebase Authentication to check credentials
-        mAuth.signInWithEmailAndPassword(email, password)
-                .addOnCompleteListener(this, task -> {
-                    if (task.isSuccessful()) {
-                        // Get the current user from Firebase
-                        FirebaseUser user = mAuth.getCurrentUser();
-                        if (user != null) {
-                            // Navigate to the appropriate welcome screen based on role
-                            navigateToWelcomeScreen(user);
-                        }
+            auth.signInWithEmailAndPassword(email, password).addOnSuccessListener(authResult -> {
+                String uid = auth.getCurrentUser().getUid();
+                userRef.child(uid).get().addOnSuccessListener(snapshot -> {
+                    if (snapshot.exists()) {
+                        String firstname = snapshot.child("firstname").getValue(String.class);
+                        String role = snapshot.child("role").getValue(String.class);
+
+                        Intent intent = new Intent(LoginActivity.this, WelcomeActivity.class);
+                        intent.putExtra("firstname", firstname);
+                        intent.putExtra("role", role);
+                        startActivity(intent);
+                        finish();
                     } else {
-                        Toast.makeText(LoginActivity.this, "Authentication failed.", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(this, "User not found", Toast.LENGTH_SHORT).show();
                     }
                 });
-    }
+            }).addOnFailureListener(e -> {
+                Toast.makeText(this, "Connection failed : " + e.getMessage(), Toast.LENGTH_LONG).show();
+            });
+        });
 
-    // Navigate to the welcome screen based on role
-    private void navigateToWelcomeScreen(FirebaseUser user) {
-        // Check if the user is admin or regular user (could be Organizer/Participant)
-        String email = user.getEmail();
-        if ("admin@example.com".equals(email)) {  // Hardcoded for the admin user
-            startActivity(new Intent(LoginActivity.this, AdminWelcomeActivity.class));
-        } else {
-            startActivity(new Intent(LoginActivity.this, UserWelcomeActivity.class));
-        }
-        finish(); // Close the login activity
+        registerNavButton.setOnClickListener(v -> {
+            Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
+            startActivity(intent);
+        });
     }
 }

@@ -16,4 +16,15 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <EditText
+        android:id="@+id/editTextText"
+        android:layout_width="494dp"
+        android:layout_height="173dp"
+        android:ems="10"
+        android:hint='"Email"'
+        android:inputType="text"
+        android:text="Name"
+        tools:layout_editor_absoluteX="60dp"
+        tools:layout_editor_absoluteY="68dp" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
