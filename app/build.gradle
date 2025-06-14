@@ -45,5 +45,7 @@ dependencies {
     implementation 'com.google.firebase:firebase-auth:22.3.1'
     // Realtime Database (si tu ne l'as pas encore)
     implementation 'com.google.firebase:firebase-database:20.3.1'
+    implementation 'androidx.recyclerview:recyclerview:1.3.1'
+
 
 }

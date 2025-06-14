@@ -1,0 +1,76 @@
+package com.example.localloopapplication;
+
+import android.content.Context;
+import android.content.Intent;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import com.google.firebase.database.FirebaseDatabase;
+
+import java.util.List;
+
+public class CategoryAdapter extends ArrayAdapter<Category> {
+    private Context context;
+    private List<Category> categories;
+
+    public CategoryAdapter(Context context, List<Category> categories) {
+        super(context, 0, categories);
+        this.context = context;
+        this.categories = categories;
+    }
+
+    @Override
+    public View getView(int position, View convertView, ViewGroup parent) {
+        Category category = getItem(position);
+
+        if (convertView == null) {
+            convertView = LayoutInflater.from(context).inflate(R.layout.event_row, parent, false);
+        }
+
+        // Find views
+        TextView tvName = convertView.findViewById(R.id.tvCategoryName);
+        TextView tvDesc = convertView.findViewById(R.id.tvCategoryDescription);
+        Button btnEdit = convertView.findViewById(R.id.btnEdit);
+        Button btnDelete = convertView.findViewById(R.id.btnDelete);
+
+        // Set values
+        tvName.setText(category.getName());
+        tvDesc.setText(category.getDescription());
+
+        // delete button functionality
+        btnDelete.setOnClickListener(v -> {
+            FirebaseDatabase.getInstance().getReference("event_categories")
+                    .child(category.getId()).removeValue()
+                    .addOnSuccessListener(aVoid -> {
+                        Toast.makeText(context, "Category deleted", Toast.LENGTH_SHORT).show();
+
+                        //  Remove from local list and notify the adapter
+                        categories.remove(category);
+                        notifyDataSetChanged();
+                    })
+                    .addOnFailureListener(e -> {
+                        Toast.makeText(context, "Delete failed", Toast.LENGTH_SHORT).show();
+                    });
+        });
+
+
+
+        // Edit button functionality
+        btnEdit.setOnClickListener(v -> {
+            Intent intent = new Intent(context, AddCategoryActivity.class);
+            intent.putExtra("categoryId", category.getId());
+            intent.putExtra("name", category.getName());
+            intent.putExtra("description", category.getDescription());
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK); // Necessary when using adapter context
+            context.startActivity(intent);
+
+        });
+
+        return convertView;
+    }
+}
