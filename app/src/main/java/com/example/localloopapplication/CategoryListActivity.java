@@ -1,6 +1,8 @@
 package com.example.localloopapplication;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -29,29 +31,39 @@ public class CategoryListActivity extends AppCompatActivity {
         setContentView(R.layout.activity_admin_category_list);
 
         listViewCategories = findViewById(R.id.listViewCategories);
+        Button createButton = findViewById(R.id.btnCreateCategory);
+
         categoryList = new ArrayList<>();
-        adapter = new CategoryAdapter(this, categoryList);  // CategoryAdapter with button logic
+        adapter = new CategoryAdapter(this, categoryList);
         listViewCategories.setAdapter(adapter);
 
-        categoryRef = FirebaseDatabase.getInstance().getReference("categories");
+        categoryRef = FirebaseDatabase.getInstance().getReference("event_categories");
 
         categoryRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                categoryList.clear();
+                categoryList.clear();  // VERY IMPORTANT: Clears the list before refilling
                 for (DataSnapshot categorySnapshot : snapshot.getChildren()) {
                     Category category = categorySnapshot.getValue(Category.class);
                     if (category != null) {
+                        category.setId(categorySnapshot.getKey());
                         categoryList.add(category);
                     }
                 }
-                adapter.notifyDataSetChanged();  // refresh ListView
+                adapter.notifyDataSetChanged();
             }
+
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
                 Toast.makeText(CategoryListActivity.this, "Failed to load categories", Toast.LENGTH_SHORT).show();
             }
+        });
+
+        // Button to launch AddCategoryActivity
+        createButton.setOnClickListener(v -> {
+            Intent intent = new Intent(CategoryListActivity.this, AddCategoryActivity.class);
+            startActivity(intent);
         });
     }
 }

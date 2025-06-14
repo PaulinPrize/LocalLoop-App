@@ -16,7 +16,6 @@ public class AddCategoryActivity extends AppCompatActivity {
 
     private EditText etCategoryName, etCategoryDescription;
     private Button btnSubmit;
-
     private DatabaseReference categoryRef;
     private boolean isEditMode = false;
     private String editingCategoryId;
@@ -28,8 +27,7 @@ public class AddCategoryActivity extends AppCompatActivity {
         etCategoryName = findViewById(R.id.etCategoryName);
         etCategoryDescription = findViewById(R.id.etCategoryDescription);
         btnSubmit = findViewById(R.id.btnSubmitCategory);
-
-        categoryRef = FirebaseDatabase.getInstance().getReference("categories");
+        categoryRef = FirebaseDatabase.getInstance().getReference("event_categories");
 
         // Check if we're editing!?
         Intent intent = getIntent();
@@ -40,10 +38,22 @@ public class AddCategoryActivity extends AppCompatActivity {
             etCategoryDescription.setText(intent.getStringExtra("description"));
         }
 
-        btnSubmit.setOnClickListener(v -> saveCategory());
+
+        btnSubmit.setOnClickListener(v ->
+
+                saveCategory());
+
     }
 
-    private void saveCategory() {// creating a new category
+    private void goToList() {
+        Intent intent = new Intent(AddCategoryActivity.this, CategoryListActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
+        finish();
+    }
+
+
+    private void saveCategory() {
         String name = etCategoryName.getText().toString().trim();
         String description = etCategoryDescription.getText().toString().trim();
 
@@ -52,25 +62,40 @@ public class AddCategoryActivity extends AppCompatActivity {
             return;
         }
 
-        if (isEditMode) {
-            // Update existing category
+        if (isEditMode && editingCategoryId != null) {
             Category updated = new Category(editingCategoryId, name, description, true);
-            categoryRef.child(editingCategoryId).setValue(updated).addOnCompleteListener(task -> {
-                if (task.isSuccessful()) {
-                    Toast.makeText(this, "Category updated", Toast.LENGTH_SHORT).show();
-                    finish();
-                }
-            });
+            categoryRef.child(editingCategoryId).setValue(updated)
+                    .addOnCompleteListener(task -> {
+                        if (task.isSuccessful()) {
+                            Toast.makeText(this, "Category updated", Toast.LENGTH_SHORT).show();
+                            goToList();
+                        } else {
+                            Toast.makeText(this, "Update failed", Toast.LENGTH_SHORT).show();
+                        }
+                    });
         } else {
-            // Add new category
             String id = categoryRef.push().getKey();
             Category newCategory = new Category(id, name, description, true);
-            categoryRef.child(id).setValue(newCategory).addOnCompleteListener(task -> {
-                if (task.isSuccessful()) {
-                    Toast.makeText(this, "Category added", Toast.LENGTH_SHORT).show();
-                    finish();
-                }
-            });
+            categoryRef.child(id).setValue(newCategory)
+                    .addOnCompleteListener(task -> {
+                        if (task.isSuccessful()) {
+                            Toast.makeText(this, "Category added", Toast.LENGTH_SHORT).show();
+                            goToList();
+                        } else {
+                            Toast.makeText(this, "Creation failed", Toast.LENGTH_SHORT).show();
+                        }
+                    });
         }
+
+
+        Intent intent = new Intent(AddCategoryActivity.this, CategoryListActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
+        finish();
+
+
     }
+
+
 }
+

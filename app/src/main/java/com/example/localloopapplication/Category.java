@@ -1,22 +1,27 @@
 package com.example.localloopapplication;
 
 public class Category {
-    private static String id;
-    private static String name;
-    private static String description;
-    private boolean active;
+    private String id;
+    private String name;
+    private String description;
+    private boolean isActive;
 
     public Category() {}
 
-    public Category(String id, String name, String description, boolean active) {
+    public Category(String id, String name, String description, boolean isActive) {
         this.id = id;
         this.name = name;
         this.description = description;
-        this.active = active;
+        this.isActive = isActive;
     }
 
-    public static String getId() { return id; }
-    public static String getName() { return name; }
-    public static String getDescription() { return description; }
-    public boolean isActive() { return active; }
+    public String getId() { return id; }
+    public String getName() { return name; }
+    public String getDescription() { return description; }
+    public boolean isActive() { return isActive; }
+
+
+    public void setId(String id) {
+        this.id = id;
+    }
 }
