@@ -24,5 +24,7 @@
         <activity android:name=".WelcomeActivity" android:exported="false" />
         <activity android:name=".MainActivity" android:exported="false" />
         <activity android:name=".UserListActivity" android:exported="false" />
+        <activity android:name=".CategoryListActivity" android:exported="false" />
+        <activity android:name=".AddCategoryActivity" android:exported="false" />
     </application>
 </manifest>

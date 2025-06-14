@@ -49,6 +49,18 @@ public class WelcomeActivity extends AppCompatActivity {
         layout.setGravity(Gravity.CENTER);
         layout.setPadding(50, 50, 50, 50);
         layout.addView(textView);
+
+        // If the user is admin, show button to go to category list
+        if ("Admin".equalsIgnoreCase(role)) {
+            Button categoryButton = new Button(this);
+            categoryButton.setText("Manage Events");
+            categoryButton.setOnClickListener(v -> {
+                Intent intent = new Intent(WelcomeActivity.this, CategoryListActivity.class);
+                startActivity(intent);
+            });
+            layout.addView(categoryButton);
+        }
+
         layout.addView(logoutButton);
         // Only add the user list button if the role is admin
         if ("admin".equalsIgnoreCase(role)) {
