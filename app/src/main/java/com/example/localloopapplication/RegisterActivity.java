@@ -77,10 +77,12 @@ public class RegisterActivity extends AppCompatActivity {
 
                     // Enregistrer les données dans la Realtime Database
                     HashMap<String, Object> userMap = new HashMap<>();
+
                     userMap.put("firstname", firstName);
                     userMap.put("lastname", lastName);
                     userMap.put("email", email);
                     userMap.put("role", role);
+                    userMap.put("id", uid);
 
                     userRef.child(uid).setValue(userMap).addOnSuccessListener(unused -> {
                         showToast("Registration successful");

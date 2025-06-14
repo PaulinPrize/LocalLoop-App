@@ -54,14 +54,15 @@ public class AddCategoryActivity extends AppCompatActivity {
 
 
     private void saveCategory() {
+        // name and description of the category being added
         String name = etCategoryName.getText().toString().trim();
         String description = etCategoryDescription.getText().toString().trim();
-
+        // the below if-block checks that both fields are filled in
         if (name.isEmpty() || description.isEmpty()) {
             Toast.makeText(this, "Please fill in all fields", Toast.LENGTH_SHORT).show();
             return;
         }
-
+        // if we're editing a category, it updates the reference in teh database
         if (isEditMode && editingCategoryId != null) {
             Category updated = new Category(editingCategoryId, name, description, true);
             categoryRef.child(editingCategoryId).setValue(updated)
@@ -74,6 +75,8 @@ public class AddCategoryActivity extends AppCompatActivity {
                         }
                     });
         } else {
+            // being inside this else-block means we aren't in editing mode
+            // so we are creating a new reference in the database
             String id = categoryRef.push().getKey();
             Category newCategory = new Category(id, name, description, true);
             categoryRef.child(id).setValue(newCategory)
@@ -87,7 +90,8 @@ public class AddCategoryActivity extends AppCompatActivity {
                     });
         }
 
-
+        // after making or updating a category
+        // we automatically go into the screen where we view the list of all categories
         Intent intent = new Intent(AddCategoryActivity.this, CategoryListActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);
