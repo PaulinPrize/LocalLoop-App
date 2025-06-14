@@ -5,9 +5,18 @@
     android:layout_height="match_parent"
     android:padding="12dp">
 
+    <Button
+        android:id="@+id/btnAddUser"
+        android:text="Add User"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="12dp" />
+
     <ListView
         android:id="@+id/listViewUsers"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="0dp"
+        android:layout_weight="1"/>
 
 </LinearLayout>
