@@ -24,6 +24,7 @@ public class WelcomeActivity extends AppCompatActivity {
         textView.setTextSize(24);
         textView.setGravity(Gravity.CENTER);
 
+            // Button lo logout user
         Button logoutButton = new Button(this);
         logoutButton.setText("Logout");
         logoutButton.setOnClickListener(v -> {
@@ -33,13 +34,27 @@ public class WelcomeActivity extends AppCompatActivity {
             finish();
         });
 
+        // Button to redirect to the list of all users (This button is only visible for Admin)
+        Button showListOfUsersButton = new Button(this);
+        showListOfUsersButton.setText("Show all users");
+
+        // Open the activity that display all users
+        showListOfUsersButton.setOnClickListener(v->{
+            Intent intent = new Intent(WelcomeActivity.this, UserListActivity.class);
+            startActivity(intent);
+        });
+
         LinearLayout layout = new LinearLayout(this);
         layout.setOrientation(LinearLayout.VERTICAL);
         layout.setGravity(Gravity.CENTER);
         layout.setPadding(50, 50, 50, 50);
         layout.addView(textView);
         layout.addView(logoutButton);
-
+        // Only add the user list button if the role is admin
+        if ("admin".equalsIgnoreCase(role)) {
+            // Add the button to the layout so it appears on screen
+            layout.addView(showListOfUsersButton);
+        }
         setContentView(layout);
     }
 }

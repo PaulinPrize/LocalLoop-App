@@ -1,7 +1,5 @@
 package com.example.localloopapplication;
-
 import android.os.Bundle;
-
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
@@ -30,10 +28,5 @@ public class MainActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
-
-        // Envoi d’un événement de test pour vérifier la connexion Firebase
-        Bundle bundle = new Bundle();
-        bundle.putString(FirebaseAnalytics.Param.METHOD, "app_start");
-        analytics.logEvent(FirebaseAnalytics.Event.APP_OPEN, bundle);
     }
 }
