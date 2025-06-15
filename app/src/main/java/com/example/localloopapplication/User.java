@@ -28,4 +28,8 @@ public class User {
         this.role = role;
         this.status = status;
     }
+
+    public String getFullName() {
+        return firstName + " " + lastName;
+    }
 }
