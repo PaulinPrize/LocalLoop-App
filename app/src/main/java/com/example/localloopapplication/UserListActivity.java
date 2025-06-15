@@ -3,6 +3,8 @@ package com.example.localloopapplication;
 import android.os.Bundle;
 import android.widget.ListView;
 import android.widget.Toast;
+import android.content.Intent;
+import android.widget.Button;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -35,6 +37,13 @@ public class UserListActivity extends AppCompatActivity {
 
         // Set the activity layout to display user list
         setContentView(R.layout.activity_user_list);
+
+        Button btnAddUser = findViewById(R.id.btnAddUser);
+
+        btnAddUser.setOnClickListener(v -> {
+            Intent intent = new Intent(UserListActivity.this, AddUserActivity.class);
+            startActivity(intent);
+        });
 
         // Find ListView in the layout by its ID
         listViewUsers = findViewById(R.id.listViewUsers);

@@ -7,6 +7,11 @@
         <item>Participant</item>
     </string-array>
 
+    <string-array name="add_user_roles_array">
+        <item>User</item>
+        <item>Admin</item>
+    </string-array>
+
     <string name="login_button">Login</string>
 
     <string name="register_button">Register</string>

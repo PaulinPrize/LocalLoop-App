@@ -26,15 +26,7 @@ public class WelcomeActivity extends AppCompatActivity {
         textView.setTextSize(24); // Set text size to 24sp
         textView.setGravity(Gravity.CENTER); // Center the text horizontally
 
-        // Create a logout button to sign out the user
-        Button logoutButton = new Button(this);
-        logoutButton.setText("Logout");
-        logoutButton.setOnClickListener(v -> {
-            FirebaseAuth.getInstance().signOut(); // Sign out the user from Firebase Authentication
-            Intent intent = new Intent(WelcomeActivity.this, LoginActivity.class); // Intent to open LoginActivity
-            startActivity(intent); // Start LoginActivity
-            finish(); // Close the current activity so user can't go back with back button
-        });
+
 
         // Create a button to show the list of all users (visible only to Admins)
         Button showListOfUsersButton = new Button(this);
@@ -63,13 +55,24 @@ public class WelcomeActivity extends AppCompatActivity {
             layout.addView(categoryButton); // Add the manage events button to the layout
         }
 
-        // Add the logout button to the layout (visible for all users)
-        layout.addView(logoutButton);
 
         // Only add the "Show all users" button if the user is Admin (case-insensitive check)
         if ("admin".equalsIgnoreCase(role)) {
             layout.addView(showListOfUsersButton); // Add the button to the layout so it appears on screen
         }
+
+        // Create a logout button to sign out the user
+        Button logoutButton = new Button(this);
+        logoutButton.setText("Logout");
+        logoutButton.setOnClickListener(v -> {
+            FirebaseAuth.getInstance().signOut(); // Sign out the user from Firebase Authentication
+            Intent intent = new Intent(WelcomeActivity.this, LoginActivity.class); // Intent to open LoginActivity
+            startActivity(intent); // Start LoginActivity
+            finish(); // Close the current activity so user can't go back with back button
+        });
+
+        // Add the logout button to the layout (visible for all users)
+        layout.addView(logoutButton);
 
         // Set the LinearLayout as the content view for this activity
         setContentView(layout);

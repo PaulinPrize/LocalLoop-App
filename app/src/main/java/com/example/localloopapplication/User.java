@@ -1,36 +1,31 @@
 package com.example.localloopapplication;
 
 public class User {
-    // Public fields for user information
     public String firstname;
     public String lastname;
     public String email;
     public String password;
     public String role;
+    public String status; // NEW FIELD: "Active", "Inactive", etc.
 
-    // Default no-argument constructor (required for Firebase deserialization)
-    public User() {}
+    public User() {
+            this.status = "Active";
+    }
 
-    /**
-     * Constructor with all fields including password.
-     * Used when creating a full User object with all data.
-     */
-    public User(String firstName, String lastName, String email, String password, String role) {
+    public User(String firstName, String lastName, String email, String password, String role, String status) {
         this.firstname = firstName;
         this.lastname = lastName;
         this.email = email;
         this.password = password;
         this.role = role;
+        this.status = status;
     }
 
-    /**
-     * Constructor without password field.
-     * Used when password is not needed (e.g., reading user data without authentication info).
-     */
-    public User(String firstName, String lastName, String email, String role) {
+    public User(String firstName, String lastName, String email, String role, String status) {
         this.firstname = firstName;
         this.lastname = lastName;
         this.email = email;
         this.role = role;
+        this.status = status;
     }
 }
