@@ -11,28 +11,28 @@
         android:id="@+id/category_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/label_category_name"
+        android:text="@string/category_text_hint"
 
-        android:textStyle="bold"
+        android:textColor="#000000"
         android:textSize="18sp"
-        android:textColor="#000000" />
+        android:textStyle="bold" />
 
     <TextView
         android:id="@+id/category_description"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/label_category_description"
+        android:layout_marginTop="4dp"
 
-        android:textSize="14sp"
+        android:text="@string/Category_description_hint"
         android:textColor="#555555"
-        android:layout_marginTop="4dp" />
+        android:textSize="14sp" />
 
     <Button
         android:id="@+id/delete_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/btn_delete"
         android:layout_marginTop="10dp"
         android:backgroundTint="#FF4444"
+        android:text="@string/delete_button"
         android:textColor="#FFFFFF" />
 </LinearLayout>

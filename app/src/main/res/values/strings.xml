@@ -12,17 +12,19 @@
     <string name="show_all_user_button">Shows all Users</string>
 
     <string name="email_text_field">Email</string>
-    <string name="email_text_hint">Please enter your email</string>
+    <string name="email_text_hint">Please enter an email</string>
+
+    <string name="new_account_textView">Creating a New Account</string>
 
 
     <string name="password_text_field">PassWord</string>
-    <string name="password_text_hint">Please enter your Password</string>
+    <string name="password_text_hint">Please enter a Password</string>
 
     <string name="manage_event_button">Manage Events</string>
     <string name="logout_button">LogOUT</string>
     <string name="add_user_button">Add Users</string>
 
-    <string name="categories_name_text_field">Category Name</string>
+    <string name="categories_text_view">Adding New Category</string>
     <string name="category_text_hint">Enter your category Name</string>
 
 

@@ -20,19 +20,19 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="@string/title_all_categories"
+            android:text="@string/all_categorie_text"
 
+            android:textColor="#000000"
             android:textSize="20sp"
-            android:textStyle="bold"
-            android:textColor="#000000" />
+            android:textStyle="bold" />
 
         <Button
             android:id="@+id/btnCreateCategory"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/btn_create_category"
-
             android:backgroundTint="#6200EE"
+
+            android:text="@string/create_new_categorie_button"
             android:textColor="#FFFFFF" />
     </LinearLayout>
 
