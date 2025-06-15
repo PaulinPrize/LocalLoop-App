@@ -2,12 +2,14 @@ package com.example.localloopapplication;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ListView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -15,12 +17,14 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+
 import java.util.List;
 import java.util.ArrayList;
 
 public class CategoryListActivity extends AppCompatActivity {
 
-    private ListView listViewCategories;
+    private RecyclerView listViewCategories;//I added this line of code to make it as a recycle list
+
     private List<Category> categoryList;
     private CategoryAdapter adapter;
     private DatabaseReference categoryRef;
@@ -31,6 +35,8 @@ public class CategoryListActivity extends AppCompatActivity {
         setContentView(R.layout.activity_admin_category_list);
 
         listViewCategories = findViewById(R.id.listViewCategories);
+        //I added this line to add  LayoutManager for RecyclerView to work
+        listViewCategories.setLayoutManager(new LinearLayoutManager(this));
         Button createButton = findViewById(R.id.btnCreateCategory);
 
         categoryList = new ArrayList<>();

@@ -20,7 +20,8 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="All Categories"
+            android:text="@string/title_all_categories"
+
             android:textSize="20sp"
             android:textStyle="bold"
             android:textColor="#000000" />
@@ -29,13 +30,14 @@
             android:id="@+id/btnCreateCategory"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Create New"
+            android:text="@string/btn_create_category"
+
             android:backgroundTint="#6200EE"
             android:textColor="#FFFFFF" />
     </LinearLayout>
 
     <!-- The ListView showing categories -->
-    <ListView
+    <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/listViewCategories"
         android:layout_width="match_parent"
         android:layout_height="0dp"

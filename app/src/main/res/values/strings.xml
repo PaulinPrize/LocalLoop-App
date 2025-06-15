@@ -1,5 +1,13 @@
 <resources>
     <string name="app_name">LocalLoop Application</string>
+    <string name="title_all_categories">All Categories</string>
+    <string name="btn_create_category">Create New</string>
+    <string name="label_category_name">Category Name</string>
+    <string name="label_category_description">Category Description</string>
+    <string name="btn_delete">Delete</string>
+
+
+
     <string-array name="roles_array">
         <item>Organizer</item>
         <item>Participant</item>

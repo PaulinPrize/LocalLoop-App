@@ -63,7 +63,7 @@ public class AddCategoryActivity extends AppCompatActivity {
         }
 
         if (isEditMode && editingCategoryId != null) {
-            Category updated = new Category(editingCategoryId, name, description, true);
+            Category updated = new Category(editingCategoryId, name, description); // ✔️
             categoryRef.child(editingCategoryId).setValue(updated)
                     .addOnCompleteListener(task -> {
                         if (task.isSuccessful()) {
@@ -75,7 +75,7 @@ public class AddCategoryActivity extends AppCompatActivity {
                     });
         } else {
             String id = categoryRef.push().getKey();
-            Category newCategory = new Category(id, name, description, true);
+            Category newCategory = new Category(id, name, description);
             categoryRef.child(id).setValue(newCategory)
                     .addOnCompleteListener(task -> {
                         if (task.isSuccessful()) {
