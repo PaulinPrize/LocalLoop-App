@@ -63,7 +63,7 @@ public class AddCategoryActivity extends AppCompatActivity {
         }
 
         if (isEditMode && editingCategoryId != null) {
-            Category updated = new Category(editingCategoryId, name, description); // ✔️
+            Category updated = new Category(editingCategoryId, name, description);
             categoryRef.child(editingCategoryId).setValue(updated)
                     .addOnCompleteListener(task -> {
                         if (task.isSuccessful()) {
@@ -76,6 +76,7 @@ public class AddCategoryActivity extends AppCompatActivity {
         } else {
             String id = categoryRef.push().getKey();
             Category newCategory = new Category(id, name, description);
+            newCategory.setActive(true);// I want to ensure category is active by default
             categoryRef.child(id).setValue(newCategory)
                     .addOnCompleteListener(task -> {
                         if (task.isSuccessful()) {

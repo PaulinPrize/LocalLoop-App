@@ -5,6 +5,9 @@
     <string name="label_category_name">Category Name</string>
     <string name="label_category_description">Category Description</string>
     <string name="btn_delete">Delete</string>
+    <string name="btn_edit">Edit</string>
+
+
 
 
 

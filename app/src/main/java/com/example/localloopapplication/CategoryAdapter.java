@@ -8,6 +8,8 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.content.Intent;
+
 import com.example.localloopapplication.Category;
 
 import androidx.annotation.NonNull;
@@ -53,7 +55,21 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
                     .show();
         });
 
+        holder.editButton.setOnClickListener(v -> {
+            Intent intent = new Intent(context, AddCategoryActivity.class);
+            intent.putExtra("categoryId", category.getId());
+            intent.putExtra("name", category.getName());
+            intent.putExtra("description", category.getDescription());
+            context.startActivity(intent);
+        });
+
+
+
     }
+
+
+
+
     // Returns total number of items in the list
     @Override
     public int getItemCount() {
@@ -62,13 +78,14 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
 
     public static class CategoryViewHolder extends RecyclerView.ViewHolder {
         TextView nameTextView, descriptionTextView;
-        Button deleteButton;
+        Button deleteButton, editButton;
 
         public CategoryViewHolder(@NonNull View itemView) {
             super(itemView);
             nameTextView = itemView.findViewById(R.id.category_name);
             descriptionTextView = itemView.findViewById(R.id.category_description);
             deleteButton = itemView.findViewById(R.id.delete_button);
+            editButton = itemView.findViewById(R.id.edit_button);
         }
     }
 
