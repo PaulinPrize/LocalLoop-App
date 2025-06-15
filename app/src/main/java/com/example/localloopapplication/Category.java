@@ -1,32 +1,37 @@
 package com.example.localloopapplication;
 
-// This class represents an event category with an ID, name, and description.
 public class Category {
+    // Unique identifier for the category
     private String id;
+    // Name of the category
     private String name;
+    // Description of the category
     private String description;
-    private boolean active = true; //I want to track if the category is active
+    // Flag indicating whether the category is active or not
+    private boolean isActive;
 
-    public Category() {} // Firebase requires an empty constructor
+    // Default constructor required for some frameworks (e.g., Firebase)
+    public Category() {}
 
-    // Constructor to initialize a category with given values
-    public Category(String id, String name, String description) {
+    // Parameterized constructor to create a category with all fields
+    public Category(String id, String name, String description, boolean isActive) {
         this.id = id;
         this.name = name;
         this.description = description;
-        this.active = true;//Default to active when creating a new category
+        this.isActive = isActive;
     }
 
-    // Getter methods
+    // Getter method for id
     public String getId() { return id; }
+    // Getter method for name
     public String getName() { return name; }
+    // Getter method for description
     public String getDescription() { return description; }
-    public boolean isActive() { return active; }//I want to ge a getter active status
+    // Getter method for isActive flag
+    public boolean isActive() { return isActive; }
 
-
-    // Setter methods
-    public void setId(String id) { this.id = id; }
-    public void setName(String name) { this.name = name; }
-    public void setDescription(String description) { this.description = description; }
-    public void setActive(boolean active) { this.active = active; } // setter for the activity
+    // Setter method for id
+    public void setId(String id) {
+        this.id = id;
+    }
 }
