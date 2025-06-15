@@ -11,17 +11,17 @@
         android:id="@+id/tvCategoryName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Event Title"
-        android:textStyle="bold"
-        android:textSize="18sp" />
+        android:text="@string/Event_title"
+        android:textSize="18sp"
+        android:textStyle="bold" />
 
     <TextView
         android:id="@+id/tvCategoryDescription"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Event description goes here"
-        android:textSize="14sp"
-        android:layout_marginTop="4dp"/>
+        android:layout_marginTop="4dp"
+        android:text="@string/Event_description_hint"
+        android:textSize="14sp" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -34,14 +34,14 @@
             android:id="@+id/btnEdit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Edit" />
+            android:text="@string/edit_button" />
 
         <Button
             android:id="@+id/btnDelete"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Delete"
+            android:layout_marginStart="8dp"
             android:backgroundTint="#E57373"
-            android:layout_marginStart="8dp" />
+            android:text="@string/delete_button" />
     </LinearLayout>
 </LinearLayout>

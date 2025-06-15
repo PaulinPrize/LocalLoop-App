@@ -24,7 +24,7 @@ public class AddCategoryActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_admin_category_add);
 
-        etCategoryName = findViewById(R.id.etCategoryName);
+        etCategoryName = findViewById(R.id.categoryTextView);
         etCategoryDescription = findViewById(R.id.etCategoryDescription);
         btnSubmit = findViewById(R.id.btnSubmitCategory);
         categoryRef = FirebaseDatabase.getInstance().getReference("event_categories");
