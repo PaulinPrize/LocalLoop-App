@@ -56,19 +56,155 @@ public class UserAdapter extends ArrayAdapter<User> {
                 DatabaseReference usersRef = database.getReference("users");
 
                 DatabaseReference specificUsersRef = usersRef.child(user.id);
-                specificUsersRef.removeValue().addOnSuccessListener(unused -> {
-                    // Successfully deleted user
-                    Toast.makeText(context, "User deleted", Toast.LENGTH_SHORT).show();
-                }).addOnFailureListener(e -> {
-                    // Failed to delete user
-                    Toast.makeText(context, "Failed to delete user: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                // TO DO : make code to ask for a confirmation message
+                tvConfirmationMSG.setVisibility(View.VISIBLE);
+                yesBtn.setVisibility(View.VISIBLE);
+                noBtn.setVisibility(View.VISIBLE);
+                yesBtn.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        specificUsersRef.removeValue().addOnSuccessListener(unused -> {
+                            // Successfully deleted user
+                            Toast.makeText(context, "User deleted", Toast.LENGTH_SHORT).show();
+                        }).addOnFailureListener(e -> {
+                            // Failed to delete user
+                            Toast.makeText(context, "Failed to delete user: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                        });
+
+                        // Hide confirmation UI
+                        tvConfirmationMSG.setVisibility(View.GONE);
+                        yesBtn.setVisibility(View.GONE);
+                        noBtn.setVisibility(View.GONE);
+                    }
                 });
+
+                noBtn.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        // Just hide confirmation UI, cancel the action
+                        tvConfirmationMSG.setVisibility(View.GONE);
+                        yesBtn.setVisibility(View.GONE);
+                        noBtn.setVisibility(View.GONE);
+                    }
+                });
+                yesBtn.setVisibility(View.VISIBLE);
+                noBtn.setVisibility(View.VISIBLE);
+                tvConfirmationMSG.setVisibility(View.GONE);
+                // end of the code for a confirmation message
+
+
+
 
                 // i have gone into the user class and added an attribute user.id
                 // i have gone into the registeractivity class and made the hashmap add the uid into the hashmap as id
                 // i modified both user constructors to include id
                 // i haven't made sure that in the list of users being referenced here, that the user constructor is called correctly
                      // with the id thing in the constructor
+                // This issue is actually solved by the way userlistactivity makes the user type objects
+            }
+        })
+
+        btnEdit.setOnClickListener(new View.OnClickListener{
+            @Override
+            public void onClick(View v){
+                // opens a connection with firebase
+                // the variable database represents our specific database
+                FirebaseDatabase database = FirebaseDatabase.getInstance();
+                // usersRef is the node with all users
+                DatabaseReference usersRef = database.getReference("users");
+
+                DatabaseReference specificUsersRef = usersRef.child(user.id);
+                // TO DO : make code to ask for a confirmation message
+                tvConfirmationMSG.setVisibility(View.VISIBLE);
+                yesBtn.setVisibility(View.VISIBLE);
+                noBtn.setVisibility(View.VISIBLE);
+                yesBtn.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        specificUsersRef.child("active").setValue(false).addOnSuccessListener(unused -> {
+                            // Successfully inactivated user
+                            Toast.makeText(context, "User deleted", Toast.LENGTH_SHORT).show();
+                        }).addOnFailureListener(e -> {
+                            // Failed to inactivate user
+                            Toast.makeText(context, "Failed to delete user: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                        });
+
+                        // Hide confirmation UI
+                        tvConfirmationMSG.setVisibility(View.GONE);
+                        yesBtn.setVisibility(View.GONE);
+                        noBtn.setVisibility(View.GONE);
+                    }
+                });
+
+                noBtn.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        // Just hide confirmation UI, cancel the action
+                        tvConfirmationMSG.setVisibility(View.GONE);
+                        yesBtn.setVisibility(View.GONE);
+                        noBtn.setVisibility(View.GONE);
+                    }
+                });
+                yesBtn.setVisibility(View.VISIBLE);
+                noBtn.setVisibility(View.VISIBLE);
+                tvConfirmationMSG.setVisibility(View.GONE);
+
+
+                // end of the code for a confirmation message
+
+
+            }
+        })
+
+        btnReactivate.setOnClickListener(new View.OnClickListener{
+            @Override
+            public void onClick(View v){
+                // opens a connection with firebase
+                // the variable database represents our specific database
+                FirebaseDatabase database = FirebaseDatabase.getInstance();
+                // usersRef is the node with all users
+                DatabaseReference usersRef = database.getReference("users");
+
+                DatabaseReference specificUsersRef = usersRef.child(user.id);
+                // TO DO : make code to ask for a confirmation message
+                tvConfirmationMSG.setVisibility(View.VISIBLE);
+                yesBtn.setVisibility(View.VISIBLE);
+                noBtn.setVisibility(View.VISIBLE);
+                yesBtn.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        specificUsersRef.child("active").setValue(true).addOnSuccessListener(unused -> {
+                            // Successfully inactivated user
+                            Toast.makeText(context, "User deleted", Toast.LENGTH_SHORT).show();
+                        }).addOnFailureListener(e -> {
+                            // Failed to inactivate user
+                            Toast.makeText(context, "Failed to delete user: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                        });
+
+                        // Hide confirmation UI
+                        tvConfirmationMSG.setVisibility(View.GONE);
+                        yesBtn.setVisibility(View.GONE);
+                        noBtn.setVisibility(View.GONE);
+                    }
+                });
+
+                noBtn.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        // Just hide confirmation UI, cancel the action
+                        tvConfirmationMSG.setVisibility(View.GONE);
+                        yesBtn.setVisibility(View.GONE);
+                        noBtn.setVisibility(View.GONE);
+                    }
+                });
+                yesBtn.setVisibility(View.VISIBLE);
+                noBtn.setVisibility(View.VISIBLE);
+                tvConfirmationMSG.setVisibility(View.GONE);
+
+
+
+                // end of the code for a confirmation message
+                // the line below actually edits the thing
             }
         })
 

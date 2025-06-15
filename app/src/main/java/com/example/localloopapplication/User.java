@@ -7,6 +7,7 @@ public class User {
     public String password;
     public String role;
     public String id;
+    public boolean active;
 
     public User(){}
 
@@ -17,6 +18,7 @@ public class User {
         this.password = password;
         this.role = role;
         this.id=id;
+        this.active=true;
     }
 
     public User(String firstName, String lastName, String email, String role, String id) {
@@ -25,5 +27,6 @@ public class User {
         this.email = email;
         this.role = role;
         this.id=id;
+        this.active=true;
     }
 }

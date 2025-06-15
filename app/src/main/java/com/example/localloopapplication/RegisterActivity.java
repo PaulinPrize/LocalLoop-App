@@ -83,6 +83,7 @@ public class RegisterActivity extends AppCompatActivity {
                     userMap.put("email", email);
                     userMap.put("role", role);
                     userMap.put("id", uid);
+                    userMap.put("äctive",true);
 
                     userRef.child(uid).setValue(userMap).addOnSuccessListener(unused -> {
                         showToast("Registration successful");

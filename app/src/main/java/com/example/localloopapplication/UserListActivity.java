@@ -29,7 +29,7 @@ public class UserListActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         // Set the layout file for the activity
-        setContentView(R.layout.activity_user_list);
+        setContentView(R.layout.user_item);
 
         // Find the ListView in the layout
         listViewUsers = findViewById(R.id.listViewUsers);
