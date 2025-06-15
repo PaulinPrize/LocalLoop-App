@@ -72,6 +72,8 @@ public class UserListActivity extends AppCompatActivity {
                     // Deserialize each snapshot into a User object
                     User user = userSnapshot.getValue(User.class);
                     if (user != null) {
+                        //Assign Firebase ID to user
+                        user.id = userSnapshot.getKey();
                         // Add user to the local list
                         userList.add(user);
                     }

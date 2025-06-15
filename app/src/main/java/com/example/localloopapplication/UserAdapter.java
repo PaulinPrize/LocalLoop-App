@@ -12,6 +12,9 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 import java.util.List;
 
 public class UserAdapter extends ArrayAdapter<User> {
@@ -46,9 +49,9 @@ public class UserAdapter extends ArrayAdapter<User> {
             holder.tvRole = convertView.findViewById(R.id.role);
             holder.tvStatus = convertView.findViewById(R.id.status);
 
-            holder.btnEdit = convertView.findViewById(R.id.btnEdit);             // This is for inactivating
-            holder.btnDelete = convertView.findViewById(R.id.btnDelete);         // Confirmation required
-            holder.btnReactivate = convertView.findViewById(R.id.btnReactivate); // Reactivating
+            holder.btnEdit = convertView.findViewById(R.id.btnEdit);             // Inactivate
+            holder.btnDelete = convertView.findViewById(R.id.btnDelete);         // Delete (confirm)
+            holder.btnReactivate = convertView.findViewById(R.id.btnReactivate); // Reactivate
             holder.btnYes = convertView.findViewById(R.id.btnYes);
             holder.btnNo = convertView.findViewById(R.id.btnNo);
 
@@ -67,21 +70,33 @@ public class UserAdapter extends ArrayAdapter<User> {
         // Hide confirmation layout initially
         holder.confirmationLayout.setVisibility(View.GONE);
 
-        // Delete confirmation logic
+        // Firebase reference for this user
+        DatabaseReference userRef = FirebaseDatabase.getInstance().getReference("users").child(user.id);
+
+        // Delete with confirmation
         holder.btnDelete.setOnClickListener(v -> holder.confirmationLayout.setVisibility(View.VISIBLE));
         holder.btnNo.setOnClickListener(v -> holder.confirmationLayout.setVisibility(View.GONE));
         holder.btnYes.setOnClickListener(v -> {
-            users.remove(position);
-            notifyDataSetChanged();
-            Toast.makeText(context, "User deleted", Toast.LENGTH_SHORT).show();
+            userRef.removeValue()
+                    .addOnSuccessListener(aVoid -> {
+                        users.remove(position);
+                        notifyDataSetChanged();
+                        Toast.makeText(context, "User deleted", Toast.LENGTH_SHORT).show();
+                    })
+                    .addOnFailureListener(e ->
+                            Toast.makeText(context, "Failed to delete user", Toast.LENGTH_SHORT).show()
+                    );
         });
 
         // Inactivate user (btnEdit)
         holder.btnEdit.setOnClickListener(v -> {
             if ("Active".equalsIgnoreCase(user.status)) {
                 user.status = "Inactive";
-                notifyDataSetChanged();
-                Toast.makeText(context, "User inactivated", Toast.LENGTH_SHORT).show();
+                userRef.child("status").setValue("Inactive")
+                        .addOnSuccessListener(aVoid -> {
+                            notifyDataSetChanged();
+                            Toast.makeText(context, "User inactivated", Toast.LENGTH_SHORT).show();
+                        });
             } else {
                 Toast.makeText(context, "User already inactive", Toast.LENGTH_SHORT).show();
             }
@@ -91,8 +106,11 @@ public class UserAdapter extends ArrayAdapter<User> {
         holder.btnReactivate.setOnClickListener(v -> {
             if ("Inactive".equalsIgnoreCase(user.status)) {
                 user.status = "Active";
-                notifyDataSetChanged();
-                Toast.makeText(context, "User reactivated", Toast.LENGTH_SHORT).show();
+                userRef.child("status").setValue("Active")
+                        .addOnSuccessListener(aVoid -> {
+                            notifyDataSetChanged();
+                            Toast.makeText(context, "User reactivated", Toast.LENGTH_SHORT).show();
+                        });
             } else {
                 Toast.makeText(context, "User already active", Toast.LENGTH_SHORT).show();
             }

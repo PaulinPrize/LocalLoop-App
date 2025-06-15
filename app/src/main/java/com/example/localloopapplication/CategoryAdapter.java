@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -18,41 +19,52 @@ public class CategoryAdapter extends ArrayAdapter<Category> {
     private Context context;
     private List<Category> categories;
 
-    // Constructor to initialize adapter with context and category list
     public CategoryAdapter(Context context, List<Category> categories) {
         super(context, 0, categories);
         this.context = context;
         this.categories = categories;
     }
 
-    // Called for each item to create and return the row view
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        Category category = getItem(position); // Get current category object
+        Category category = getItem(position);
 
-        // Inflate layout if it's not already created
+        ViewHolder holder;
         if (convertView == null) {
             convertView = LayoutInflater.from(context).inflate(R.layout.event_row, parent, false);
+            holder = new ViewHolder();
+
+            holder.tvName = convertView.findViewById(R.id.tvCategoryName);
+            holder.tvDesc = convertView.findViewById(R.id.tvCategoryDescription);
+            holder.btnEdit = convertView.findViewById(R.id.btnEdit);
+            holder.btnDelete = convertView.findViewById(R.id.btnDelete);
+            holder.btnYes = convertView.findViewById(R.id.btnYes);
+            holder.btnNo = convertView.findViewById(R.id.btnNo);
+            holder.confirmationLayout = convertView.findViewById(R.id.confirmationLayout);
+
+            convertView.setTag(holder);
+        } else {
+            holder = (ViewHolder) convertView.getTag();
         }
 
-        // Find views in the row layout
-        TextView tvName = convertView.findViewById(R.id.tvCategoryName);
-        TextView tvDesc = convertView.findViewById(R.id.tvCategoryDescription);
-        Button btnEdit = convertView.findViewById(R.id.btnEdit);
-        Button btnDelete = convertView.findViewById(R.id.btnDelete);
+        holder.tvName.setText(category.getName());
+        holder.tvDesc.setText(category.getDescription());
 
-        // Set text values from the category object
-        tvName.setText(category.getName());
-        tvDesc.setText(category.getDescription());
+        // Hide confirmation layout by default
+        holder.confirmationLayout.setVisibility(View.GONE);
 
-        // Delete button: removes the category from Firebase and updates UI
-        btnDelete.setOnClickListener(v -> {
+        // Show confirmation layout
+        holder.btnDelete.setOnClickListener(v -> holder.confirmationLayout.setVisibility(View.VISIBLE));
+
+        // Cancel deletion
+        holder.btnNo.setOnClickListener(v -> holder.confirmationLayout.setVisibility(View.GONE));
+
+        // Confirm deletion
+        holder.btnYes.setOnClickListener(v -> {
             FirebaseDatabase.getInstance().getReference("event_categories")
                     .child(category.getId()).removeValue()
                     .addOnSuccessListener(aVoid -> {
                         Toast.makeText(context, "Category deleted", Toast.LENGTH_SHORT).show();
-
-                        // Remove from local list and notify adapter to refresh the list view
                         categories.remove(category);
                         notifyDataSetChanged();
                     })
@@ -61,16 +73,22 @@ public class CategoryAdapter extends ArrayAdapter<Category> {
                     });
         });
 
-        // Edit button: opens AddCategoryActivity with existing data passed via Intent
-        btnEdit.setOnClickListener(v -> {
+        // Edit category
+        holder.btnEdit.setOnClickListener(v -> {
             Intent intent = new Intent(context, AddCategoryActivity.class);
             intent.putExtra("categoryId", category.getId());
             intent.putExtra("name", category.getName());
             intent.putExtra("description", category.getDescription());
-            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK); // Required when using context in adapter
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             context.startActivity(intent);
         });
 
-        return convertView; // Return the populated view for display
+        return convertView;
+    }
+
+    static class ViewHolder {
+        TextView tvName, tvDesc;
+        Button btnEdit, btnDelete, btnYes, btnNo;
+        LinearLayout confirmationLayout;
     }
 }

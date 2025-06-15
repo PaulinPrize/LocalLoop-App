@@ -44,4 +44,36 @@
             android:backgroundTint="#E57373"
             android:text="@string/delete_button" />
     </LinearLayout>
+
+    <!-- ✳️ Confirmation layout -->
+    <LinearLayout
+        android:id="@+id/confirmationLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:layout_marginTop="8dp"
+        android:visibility="gone">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Confirm delete?"
+            android:padding="8dp"/>
+
+        <Button
+            android:id="@+id/btnYes"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Yes"
+            android:backgroundTint="#4CAF50" /> <!-- Green -->/>
+
+        <Button
+            android:id="@+id/btnNo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="No"
+            android:layout_marginStart="8dp"
+            android:backgroundTint="#F44336" /> <!-- Red -->
+    </LinearLayout>
 </LinearLayout>
