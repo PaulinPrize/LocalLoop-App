@@ -30,7 +30,7 @@ public class AddCategoryActivity extends AppCompatActivity {
         setContentView(R.layout.activity_admin_category_add); // Set layout for this activity
 
         // Initialize UI elements by finding them by their IDs
-        etCategoryName = findViewById(R.id.etCategoryName);
+        etCategoryName = findViewById(R.id.categoryTextView);
         etCategoryDescription = findViewById(R.id.etCategoryDescription);
         btnSubmit = findViewById(R.id.btnSubmitCategory);
 

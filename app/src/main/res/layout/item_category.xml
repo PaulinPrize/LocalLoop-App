@@ -2,81 +2,72 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:padding="12dp"
+    android:layout_marginBottom="8dp"
     android:background="#f0f0f0"
-    android:layout_marginBottom="8dp">
-
-    <Space
-        android:layout_width="match_parent"
-        android:layout_height="38dp" />
+    android:orientation="vertical"
+    android:padding="12dp">
 
     <TextView
-        android:id="@+id/textView2"
+        android:id="@+id/textViewMenu"
         android:layout_width="match_parent"
         android:layout_height="37dp"
         android:text="@string/manage_category_textView"
         android:textSize="20sp"
         android:textStyle="bold" />
 
-    <Space
-        android:layout_width="match_parent"
-        android:layout_height="17dp" />
-
-    <TextView
-        android:id="@+id/category_name"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/category_text_hint"
-
-        android:textColor="#555555"
-        android:textSize="14sp" />
-
-    <Space
-        android:layout_width="match_parent"
-        android:layout_height="35dp" />
-
-    <TextView
-        android:id="@+id/category_description"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
-
-        android:text="@string/Category_description_hint"
-        android:textColor="#555555"
-        android:textSize="14sp" />
-
-    <Space
-        android:layout_width="match_parent"
-        android:layout_height="23dp" />
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="horizontal">
+        android:layout_marginBottom="8dp"
+        android:background="#f0f0f0"
+        android:orientation="vertical"
+        android:padding="12dp">
 
-        <Button
-            android:id="@+id/button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:backgroundTint="#4B009607"
-            android:text="@string/add_category" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="8dp"
+            android:background="#f0f0f0"
+            android:orientation="vertical"
+            android:padding="12dp">
 
-        <Button
-            android:id="@+id/button3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/edit_category" />
+            <TextView
+                android:id="@+id/textView2"
+                android:layout_width="match_parent"
+                android:layout_height="37dp"
+                android:text="@string/edit_category"
+                android:textSize="20sp"
+                android:textStyle="bold" />
 
-        <Button
-            android:id="@+id/delete_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:backgroundTint="#E21515"
-            android:text="@string/delete_category" />
+            <Button
+                android:id="@+id/categoryEditButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/edit_category_button" />
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="24dp" />
+
+            <TextView
+                android:id="@+id/textView2"
+                android:layout_width="match_parent"
+                android:layout_height="37dp"
+                android:text="@string/delete_category"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+            <Button
+                android:id="@+id/delete_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:backgroundTint="#E21515"
+                android:text="@string/delete_category_button" />
+
+        </LinearLayout>
+
     </LinearLayout>
 
 </LinearLayout>

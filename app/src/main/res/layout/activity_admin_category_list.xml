@@ -26,17 +26,13 @@
             android:textSize="20sp"
             android:textStyle="bold" />
 
-        <Button
-            android:id="@+id/btnCreateCategory"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:backgroundTint="#6200EE"
-
-            android:text="@string/create_new_categorie_button"
-            android:textColor="#FFFFFF" />
     </LinearLayout>
 
     <!-- The ListView showing categories -->
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="13dp" />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/listViewCategories"
         android:layout_width="match_parent"
@@ -44,4 +40,17 @@
         android:layout_weight="1"
         android:dividerHeight="8dp"
         android:background="#FFFFFF" />
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="13dp" />
+
+    <Button
+        android:id="@+id/btnCreateCategory"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:backgroundTint="#6200EE"
+
+        android:text="@string/create_new_categorie_button"
+        android:textColor="#FFFFFF" />
 </LinearLayout>
