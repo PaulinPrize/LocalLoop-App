@@ -1,76 +1,76 @@
 package com.example.localloopapplication;
+
+import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.TextView;
-import android.content.Context;
-import androidx.recyclerview.widget.RecyclerView;
-import java.util.List;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
-import com.google.firebase.database.DatabaseReference;
+
 import com.google.firebase.database.FirebaseDatabase;
 
-//  takes your data (like a list of event categories)
-//and binds it to views (like rows in a RecyclerView).
+import java.util.List;
 
-public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.CategoryViewHolder> {
+public class CategoryAdapter extends ArrayAdapter<Category> {
+    private Context context;
+    private List<Category> categories;
 
-    private final Context context;
-    private List<Category> categoryList;
-
-
-    public CategoryAdapter(Context context, List<Category> categoryList) {
+    // Constructor to initialize adapter with context and category list
+    public CategoryAdapter(Context context, List<Category> categories) {
+        super(context, 0, categories);
         this.context = context;
-        this.categoryList = categoryList;
+        this.categories = categories;
     }
 
-    public CategoryViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.activity_admin_category_list, parent, false);
-        return new CategoryViewHolder(view);
-    }
+    // Called for each item to create and return the row view
+    @Override
+    public View getView(int position, View convertView, ViewGroup parent) {
+        Category category = getItem(position); // Get current category object
 
-    public void onBindViewHolder(CategoryViewHolder holder, int position) {
-        Category category = categoryList.get(position);
-
-        holder.tvCategoryName.setText(category.getName());
-        holder.tvCategoryDescription.setText(category.getDescription());
-
-        // allows you to click and edit
-        holder.btnEdit.setOnClickListener(v ->  {
-                Toast.makeText(context, "Edit " + category.getName(), Toast.LENGTH_SHORT).show();
-            Intent intent = new Intent(context, AddCategoryActivity.class);
-            intent.putExtra("eventId", Category.getId());
-            intent.putExtra("name", Category.getName());
-            intent.putExtra("description", Category.getDescription());
-            context.startActivity(intent);
-            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-
-        });
-        //alows you to click delete
-        holder.btnDelete.setOnClickListener(v -> {
-            Toast.makeText(context, "Delete " + category.getName(), Toast.LENGTH_SHORT).show();
-            DatabaseReference db = FirebaseDatabase.getInstance().getReference("events");
-            db.child(Category.getId()).removeValue();
-        });
-    }
-    // keeps track of category list
-    public int getItemCount() {
-        return categoryList.size();
-    }
-
-    public static class CategoryViewHolder extends RecyclerView.ViewHolder {
-        TextView tvCategoryName, tvCategoryDescription;
-        Button btnEdit, btnDelete;
-
-        public CategoryViewHolder(View itemView) {
-            super(itemView);
-            tvCategoryName = itemView.findViewById(R.id.tvCategoryName);
-            tvCategoryDescription = itemView.findViewById(R.id.tvCategoryDescription);
-            btnEdit = itemView.findViewById(R.id.btnEdit);
-            btnDelete = itemView.findViewById(R.id.btnDelete);
+        // Inflate layout if it's not already created
+        if (convertView == null) {
+            convertView = LayoutInflater.from(context).inflate(R.layout.event_row, parent, false);
         }
 
+        // Find views in the row layout
+        TextView tvName = convertView.findViewById(R.id.tvCategoryName);
+        TextView tvDesc = convertView.findViewById(R.id.tvCategoryDescription);
+        Button btnEdit = convertView.findViewById(R.id.btnEdit);
+        Button btnDelete = convertView.findViewById(R.id.btnDelete);
+
+        // Set text values from the category object
+        tvName.setText(category.getName());
+        tvDesc.setText(category.getDescription());
+
+        // Delete button: removes the category from Firebase and updates UI
+        btnDelete.setOnClickListener(v -> {
+            FirebaseDatabase.getInstance().getReference("event_categories")
+                    .child(category.getId()).removeValue()
+                    .addOnSuccessListener(aVoid -> {
+                        Toast.makeText(context, "Category deleted", Toast.LENGTH_SHORT).show();
+
+                        // Remove from local list and notify adapter to refresh the list view
+                        categories.remove(category);
+                        notifyDataSetChanged();
+                    })
+                    .addOnFailureListener(e -> {
+                        Toast.makeText(context, "Delete failed", Toast.LENGTH_SHORT).show();
+                    });
+        });
+
+        // Edit button: opens AddCategoryActivity with existing data passed via Intent
+        btnEdit.setOnClickListener(v -> {
+            Intent intent = new Intent(context, AddCategoryActivity.class);
+            intent.putExtra("categoryId", category.getId());
+            intent.putExtra("name", category.getName());
+            intent.putExtra("description", category.getDescription());
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK); // Required when using context in adapter
+            context.startActivity(intent);
+        });
+
+        return convertView; // Return the populated view for display
     }
 }

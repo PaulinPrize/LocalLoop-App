@@ -8,99 +8,91 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.*;
 
 public class LoginActivity extends AppCompatActivity {
 
+    // UI components
     private EditText emailInput;
     private EditText passwordInput;
     private Button loginButton;
     private Button registerNavButton;
 
-    private FirebaseAuth auth;
-    private DatabaseReference userRef;
+    // Firebase components
+    private FirebaseAuth auth;                  // Firebase Authentication instance
+    private DatabaseReference userRef;          // Reference to "users" node in Firebase Realtime DB
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
+        setContentView(R.layout.activity_login);  // Set layout for the login screen
 
-        emailInput = findViewById(R.id.emailInput);         // IDs from XML
+        // Link UI elements from XML
+        emailInput = findViewById(R.id.emailInput);
         passwordInput = findViewById(R.id.passwordInput);
         loginButton = findViewById(R.id.loginButton);
         registerNavButton = findViewById(R.id.registerNavButton);
 
-        //Connecting to the database
+        // Initialize Firebase Auth and Database
         auth = FirebaseAuth.getInstance();
-
-        //Making sure we have the right FireBase path
         userRef = FirebaseDatabase.getInstance().getReference("users");
 
+        // Login button logic
         loginButton.setOnClickListener(v -> {
+            // Get user input and trim spaces
             String email = emailInput.getText().toString().trim();
             String password = passwordInput.getText().toString().trim();
 
+            // Check if email and password fields are filled
             if (TextUtils.isEmpty(email) || TextUtils.isEmpty(password)) {
                 Toast.makeText(this, "Please fill all fields", Toast.LENGTH_SHORT).show();
                 return;
             }
 
-            //Checking if the user is the Adimn
+            // If admin credentials are entered, go directly to Admin Welcome screen
             if (email.equals("admin@gmail.com") && password.equals("XPI76SZUqyCjVxgnUjm0")) {
-
-                //Creating a new intent in other to call the WelcomeActivity class after the admin successfully log in
-                Intent intent = new Intent(LoginActivity.this, AdminWelcomeActivity.class);
-
-                //Adding extended data to the intent
+                Intent intent = new Intent(LoginActivity.this, WelcomeActivity.class);
                 intent.putExtra("firstname", "Admin");
                 intent.putExtra("role", "Admin");
-
-                //Run the intent
                 startActivity(intent);
-
-                //Terminating the activity and set resources free for other intents
-                finish();
-
-                //Stop executing and exit the method
+                finish(); // End current activity
                 return;
             }
 
+            // Attempt Firebase authentication with email and password
             auth.signInWithEmailAndPassword(email, password).addOnSuccessListener(authResult -> {
+                // If login is successful, get user ID
                 String uid = auth.getCurrentUser().getUid();
+
+                // Retrieve user data from Realtime Database using UID
                 userRef.child(uid).get().addOnSuccessListener(snapshot -> {
                     if (snapshot.exists()) {
-
+                        // Extract firstname and role from the database
                         String firstname = snapshot.child("firstname").getValue(String.class);
                         String role = snapshot.child("role").getValue(String.class);
 
-                        //Creating a new intent in other to call the WelcomeActivity class after the admin successfully log in
+                        // Navigate to WelcomeActivity with user info
                         Intent intent = new Intent(LoginActivity.this, WelcomeActivity.class);
-
-                        //Adding extended data to the intent
                         intent.putExtra("firstname", firstname);
                         intent.putExtra("role", role);
-
-                        //Run the intent
                         startActivity(intent);
-
-                        //Terminating the activity and set resources free for other intents
-                        finish();
-
+                        finish(); // End login screen
                     } else {
+                        // User record not found in database
                         Toast.makeText(this, "User not found", Toast.LENGTH_SHORT).show();
                     }
                 });
             }).addOnFailureListener(e -> {
+                // Show error if login fails
                 Toast.makeText(this, "Connection failed : " + e.getMessage(), Toast.LENGTH_LONG).show();
             });
         });
 
+        // Navigate to Register screen when user clicks register button
         registerNavButton.setOnClickListener(v -> {
-            //Creating a new intent in other to call the RegisterActivity class after the register button has been clicked
             Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
-
-            ////Run the intent
             startActivity(intent);
         });
     }

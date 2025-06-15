@@ -16,10 +16,12 @@ import java.util.HashMap;
 
 public class RegisterActivity extends AppCompatActivity {
 
-    //Instance variables
+    // UI elements for user input
     private EditText firstNameInput, lastNameInput, emailInput, passwordInput;
     private Button registerButton;
     private Spinner roleSpinner;
+
+    // Firebase authentication and database references
     private FirebaseAuth auth;
     private DatabaseReference userRef;
 
@@ -28,6 +30,7 @@ public class RegisterActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
 
+        // Initialize UI components by finding them in the layout
         firstNameInput = findViewById(R.id.firstNameInput);
         lastNameInput = findViewById(R.id.lastNameInput);
         emailInput = findViewById(R.id.emailInput);
@@ -35,95 +38,104 @@ public class RegisterActivity extends AppCompatActivity {
         roleSpinner = findViewById(R.id.roleInput);
         registerButton = findViewById(R.id.registerButton);
 
+        // Set up the spinner for roles with values from resources (roles_array)
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
                 R.array.roles_array, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         roleSpinner.setAdapter(adapter);
 
-        // Initializer Firebase
+        // Initialize Firebase Authentication and Realtime Database references
         auth = FirebaseAuth.getInstance();
-
-        //Checking the firebase path
         userRef = FirebaseDatabase.getInstance().getReference("users");
 
-        //Listener fot the register button
+        // Set click listener on the register button
         registerButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                // Retrieve and trim user inputs
                 String firstName = firstNameInput.getText().toString().trim();
                 String lastName = lastNameInput.getText().toString().trim();
                 String email = emailInput.getText().toString().trim();
                 String password = passwordInput.getText().toString().trim();
+                // Get role selected from spinner and convert to lowercase for consistency
                 String role = roleSpinner.getSelectedItem().toString().toLowerCase();
 
-                //Validating the firstName with only letter
+                // Validate first name (not empty and letters only)
                 if (firstName.isEmpty() || !isAlpha(firstName)) {
                     showToast("Enter a valid first name (letters only)");
                     return;
                 }
-                //Validating the lastName with only letter
+                // Validate last name (not empty and letters only)
                 if (lastName.isEmpty() || !isAlpha(lastName)) {
                     showToast("Enter a valid last name (letters only)");
                     return;
                 }
-                //Validating the email with valid email address
+                // Validate email format
                 if (!isValidEmail(email)) {
                     showToast("Enter a valid email address");
                     return;
                 }
-
-                //Validating the passWord
+                // Validate password complexity
                 if (!isValidPassword(password)) {
                     showToast("Password must be 6+ chars, include uppercase, digit, and symbol");
                     return;
                 }
 
-                // Créer un compte Firebase
+                // Create user in Firebase Authentication
                 auth.createUserWithEmailAndPassword(email, password).addOnSuccessListener(authResult -> {
+                    // On success, get the UID of the new user
                     String uid = auth.getCurrentUser().getUid();
 
-                    // Enregistrer les données dans la Realtime Database
+                    // Prepare user data to store in Firebase Realtime Database
                     HashMap<String, Object> userMap = new HashMap<>();
                     userMap.put("firstname", firstName);
                     userMap.put("lastname", lastName);
                     userMap.put("email", email);
                     userMap.put("role", role);
 
-                    //Handling difference errors cases realated to registration
+                    // Save user data under "users/{uid}"
                     userRef.child(uid).setValue(userMap).addOnSuccessListener(unused -> {
-                        showToast("Registration successful"); //Successfullly registered
+                        showToast("Registration successful");
+                        // Move to LoginActivity after successful registration
                         startActivity(new Intent(RegisterActivity.this, LoginActivity.class));
                         finish();
                     }).addOnFailureListener(e -> {
-                        showToast("Failed to save user data: " + e.getMessage()); //Failed to save the user
+                        // Show error if saving user data fails
+                        showToast("Failed to save user data: " + e.getMessage());
                     });
                 }).addOnFailureListener(e -> {
-                    showToast("Registration failed: " + e.getMessage()); //Registration error
+                    // Show error if Firebase user creation fails
+                    showToast("Registration failed: " + e.getMessage());
                 });
             }
         });
     }
 
-    //This method verify if the entered information are only letters | Use for the firstName and the lastName validation
+    // Helper method to check if a string contains only letters
     private boolean isAlpha(String input) {
         return input.matches("[a-zA-Z]+");
     }
 
-    //This method verify if the entered email address is valid(Contain a @, contain a domain...)
+    // Helper method to validate email format
     private boolean isValidEmail(String email) {
         return android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches();
     }
 
-    //This method verify if the entered password has lower, upperCase, special characters...
+    // Helper method to validate password complexity requirements
     private boolean isValidPassword(String password) {
-        return password.length() >= 6 && password.matches(".*[A-Z].*") && password.matches(".*[a-z].*") && password.matches(".*\\d.*") && password.matches(".*[!@#$%^&*+=?-].*");
+        return password.length() >= 6
+                && password.matches(".*[A-Z].*")   // Contains uppercase letter
+                && password.matches(".*[a-z].*")   // Contains lowercase letter
+                && password.matches(".*\\d.*")     // Contains digit
+                && password.matches(".*[!@#$%^&*+=?-].*"); // Contains special symbol
     }
 
-    ////This method verify if the entered role valid(either Organizer or Participant)
+    // (Unused in code, but here for completeness) Validate role is either organizer or participant
     private boolean isValidRole(String role) {
         return role.equalsIgnoreCase("organizer") || role.equalsIgnoreCase("participant");
     }
 
+    // Helper method to show a short Toast message
     private void showToast(String msg) {
         Toast.makeText(RegisterActivity.this, msg, Toast.LENGTH_SHORT).show();
     }
