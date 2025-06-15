@@ -7,15 +7,34 @@
     android:background="#f0f0f0"
     android:layout_marginBottom="8dp">
 
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="38dp" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="match_parent"
+        android:layout_height="37dp"
+        android:text="@string/manage_category_textView"
+        android:textSize="20sp"
+        android:textStyle="bold" />
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="17dp" />
+
     <TextView
         android:id="@+id/category_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/category_text_hint"
 
-        android:textColor="#000000"
-        android:textSize="18sp"
-        android:textStyle="bold" />
+        android:textColor="#555555"
+        android:textSize="14sp" />
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="35dp" />
 
     <TextView
         android:id="@+id/category_description"
@@ -27,12 +46,37 @@
         android:textColor="#555555"
         android:textSize="14sp" />
 
-    <Button
-        android:id="@+id/delete_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:backgroundTint="#FF4444"
-        android:text="@string/delete_button"
-        android:textColor="#FFFFFF" />
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="23dp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:backgroundTint="#4B009607"
+            android:text="@string/add_category" />
+
+        <Button
+            android:id="@+id/button3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/edit_category" />
+
+        <Button
+            android:id="@+id/delete_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:backgroundTint="#E21515"
+            android:text="@string/delete_category" />
+    </LinearLayout>
+
 </LinearLayout>

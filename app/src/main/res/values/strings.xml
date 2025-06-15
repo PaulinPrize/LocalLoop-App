@@ -1,9 +1,12 @@
 <resources>
+
     <string name="app_name">LocalLoop Application</string>
+
     <string-array name="roles_array">
         <item>Organizer</item>
         <item>Participant</item>
     </string-array>
+
     <string name="login_button">Login</string>
 
     <string name="register_button">Register</string>
@@ -26,10 +29,15 @@
 
     <string name="categories_text_view">Adding New Category</string>
     <string name="category_text_hint">Enter your category Name</string>
+    <string name="manage_category_textView">Manage the Categories</string>
 
+    <string name="btnSubmitCategory"> Submit </string>
 
     <string name="categorie_description_text_field">Description</string>
     <string name="Category_description_hint">Please describe your categories</string>
+    <string name="add_category">Add</string>
+    <string name="edit_category">Edit</string>
+    <string name="delete_category">Delete</string>
 
     <string name="submit_button">Submit</string>
 
@@ -49,12 +57,6 @@
     <string name="last_name_input">Enter your last name</string>
     <string name="email_input">Enter your email</string>
     <string name="role_input">Enter your role</string>
-
-
-
-
-
-
 
 </resources>
 
