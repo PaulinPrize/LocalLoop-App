@@ -33,7 +33,12 @@
 
         <Button
             android:id="@+id/btnEdit"
-            android:text="Edit"
+            android:text="Inactivate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <Button
+            android:id="@+id/btnReactivate"
+            android:text="Reactivate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
