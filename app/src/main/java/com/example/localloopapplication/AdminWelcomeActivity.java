@@ -46,8 +46,8 @@ public class AdminWelcomeActivity extends AppCompatActivity {
 
             Intent intent = new Intent(AdminWelcomeActivity.this, UserDetailsActivity.class);
             intent.putExtra("email", clickedUser.email);
-            intent.putExtra("firstName", clickedUser.firstName);
-            intent.putExtra("lastName", clickedUser.lastName);
+            intent.putExtra("firstName", clickedUser.firstname);
+            intent.putExtra("lastName", clickedUser.lastname);
             intent.putExtra("role", clickedUser.role);
 
             startActivity(intent);

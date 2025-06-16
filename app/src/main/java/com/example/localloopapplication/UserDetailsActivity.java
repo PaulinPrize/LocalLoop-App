@@ -24,11 +24,11 @@ public class UserDetailsActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.user_list_item); //user layout
+        setContentView(R.layout.user_item); //user layout
 
-        TextView fullNameText = findViewById(R.id.fullNameText);
-        TextView emailText = findViewById(R.id.emailText);
-        TextView roleText = findViewById(R.id.roleText);
+        TextView fullNameText = findViewById(R.id.fullName);
+        TextView emailText = findViewById(R.id.email);
+        TextView roleText = findViewById(R.id.role);
 
         // Get data from intents
         String firstName = getIntent().getStringExtra("firstName");
