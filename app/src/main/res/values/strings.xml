@@ -8,8 +8,8 @@
     </string-array>
 
     <string-array name="add_user_roles_array">
-        <item>User</item>
-        <item>Admin</item>
+        <item>Organizer</item>
+        <item>Participant</item>
     </string-array>
 
     <string name="login_button">Login</string>
