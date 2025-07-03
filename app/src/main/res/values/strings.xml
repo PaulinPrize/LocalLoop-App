@@ -83,6 +83,20 @@
     <string name="email_input">Enter your email</string>
     <string name="role_input">Enter your role</string>
 
+
+
+
+    <string name="create_new_event">Create New Event</string>
+    <string name="event_name">Event Name</string>
+    <string name="event_description">Description</string>
+    <string name="event_category">Category</string>
+    <string name="participation_fee">Participation Fee</string>
+    <string name="event_datetime_hint">Date &#8211; Time (e.g. 2025&#8211;07&#8211;01 14:00)</string>
+    <string name="save_event">Save Event</string>
+    <string name="delete_event">Delete Event</string>
+
+
+
 </resources>
 
 
