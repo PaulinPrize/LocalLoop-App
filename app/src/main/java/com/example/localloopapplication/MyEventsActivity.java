@@ -1,79 +1,92 @@
 package com.example.localloopapplication;
 
+import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.ProgressBar;
+import android.widget.ListView;
 import android.widget.TextView;
-import androidx.annotation.NonNull;
+import android.widget.Toast;
+
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-import com.google.firebase.auth.FirebaseAuth;
+
+import com.example.localloopapplication.User;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+
 import java.util.ArrayList;
-import java.util.List;
+
+// this java file is for the screen that lets organizers view all events 
 
 public class MyEventsActivity extends AppCompatActivity {
 
-    private RecyclerView recyclerView;
-    private ProgressBar progressBar;
-    private TextView emptyView;
-    private EventAdapter adapter;
-    private List<Event> eventList;
-    private DatabaseReference eventsRef;
-    private String organizerId;
+    private TextView welcomeText;
+    private ListView eventListView; // ListView to display event data
+    //private ArrayList<String> eventList; // List to hold the user data (email, name, etc.)
+    private com.example.localloopapplication.EventAdapter adapter;
+    // TODO: make eventadapter class
+    private DatabaseReference mDatabase;
+    private ArrayList<Event> eventList; // Store User objects now
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_my_events);
+        setContentView(R.layout.activity_organizer_welcome);
 
-        recyclerView = findViewById(R.id.recyclerEvents);
-        progressBar = findViewById(R.id.progressBar);
-        emptyView = findViewById(R.id.emptyView);
+        // Initialize UI components
+        welcomeText = findViewById(R.id.welcomeText);
+        eventListView = findViewById(R.id.eventListView);
 
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
         eventList = new ArrayList<>();
-        adapter = new EventAdapter(eventList);
-        recyclerView.setAdapter(adapter);
+        adapter = new com.example.localloopapplication.EventAdapter(this, eventList);
+        eventListView.setAdapter(adapter);
 
-        organizerId = FirebaseAuth.getInstance().getCurrentUser().getUid();
-        eventsRef = FirebaseDatabase.getInstance().getReference("events");
+        // Set item click listener here
+        eventListView.setOnItemClickListener((parent, view, position, id) -> {
+            Event clickedEvent = eventList.get(position);
 
-        fetchEvents();
+            Intent intent = new Intent(OrganizerWelcomeActivity.this, EventDetailsActivity.class);
+            intent.putExtra("name", clickedEvent.name);
+            intent.putExtra("description", clickedEvent.description);
+            intent.putExtra("category", clickedEvent.category);
+            intent.putExtra("fee", clickedEvent.fee);
+            intent.putExtra("datTime", clickedEvent.datTime);
+
+            startActivity(intent);
+        });
+
+        // Get reference to Firebase Realtime Database
+        // this matches the name of the database node from maha's code 
+        mDatabase = FirebaseDatabase.getInstance().getReference("events");
+
+        // Load user list from Firebase
+        loadEvents();
     }
 
-    private void fetchEvents() {
-        progressBar.setVisibility(View.VISIBLE);
-        eventsRef.orderByChild("organizerId").equalTo(organizerId)
-                .addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        eventList.clear();
-                        for (DataSnapshot eventSnap : snapshot.getChildren()) {
-                            Event event = eventSnap.getValue(Event.class);
-                            eventList.add(event);
-                        }
-                        adapter.notifyDataSetChanged();
-                        progressBar.setVisibility(View.GONE);
+//This method retrieve data from the database
+    private void loadEvents() {
+        mDatabase.addValueEventListener(new ValueEventListener() {
 
-                        if (eventList.isEmpty()) {
-                            emptyView.setVisibility(View.VISIBLE);
-                        } else {
-                            emptyView.setVisibility(View.GONE);
-                        }
-                    }
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                eventList.clear();
 
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError error) {
-                        progressBar.setVisibility(View.GONE);
-                        emptyView.setText("Failed to load events.");
-                        emptyView.setVisibility(View.VISIBLE);
+                for (DataSnapshot eventSnapshot : dataSnapshot.getChildren()) {
+                    Event event = eventSnapshot.getValue(Event.class);
+                    if (event != null) {
+                        eventList.add(event);
                     }
-                });
+                }
+                adapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                // Show an error message if data retrieval fails
+                Toast.makeText(AdminWelcomeActivity.this, "Failed to load event data", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
+
 }
