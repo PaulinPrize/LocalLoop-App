@@ -1,42 +1,52 @@
+
 package com.example.localloopapplication;
 
-import android.app.DatePickerDialog;
-import android.app.TimePickerDialog;
+
+// Android core
+import android.app.Activity;
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.net.Uri;
+import android.provider.MediaStore;
+import android.view.View;
+import android.widget.ImageView;
 import android.os.Bundle;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Spinner;
 import android.widget.Toast;
-
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+// Google Play services
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.OnFailureListener;
+
+// Firebase
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Locale;
+// Glide (optional, for displaying selected image in preview)
+import com.bumptech.glide.Glide;
+
+// Java utility
+import java.io.IOException;
 import java.util.UUID;
 
 public class AddEventActivity extends AppCompatActivity {
 
-    private EditText etName, etDescription, etFee, etDateTime;
-    private Spinner categorySpinner;
-    private Button btnSave;
+    private EditText etName, etDescription, etCategory, etFee, etDateTime;
+    private Button btnSave, selectImageButton;
 
-    private DatabaseReference eventsRef, categoriesRef;
-
-    private ArrayList<String> categoryList = new ArrayList<>();
-    private ArrayAdapter<String> categoryAdapter;
-
+    private DatabaseReference eventsRef;
+    
+    private Uri selectedImageUri;
+    
+    public static final int PICK_IMAGE = 1001;
+    
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,116 +54,95 @@ public class AddEventActivity extends AppCompatActivity {
 
         // Firebase reference to "events" table
         eventsRef = FirebaseDatabase.getInstance().getReference("events");
-        categoriesRef = FirebaseDatabase.getInstance().getReference("event_categories");
-
 
         // Link input fields
         etName = findViewById(R.id.etEventName);
         etDescription = findViewById(R.id.etEventDescription);
-        categorySpinner = findViewById(R.id.spinnerEventCategory);
+        etCategory = findViewById(R.id.etEventCategory);
         etFee = findViewById(R.id.etEventFee);
         etDateTime = findViewById(R.id.etEventDateTime);
         btnSave = findViewById(R.id.btnSaveEvent);
-
-        // Initialize category spinner adapter
-        categoryAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, categoryList);
-        categorySpinner.setAdapter(categoryAdapter);
-
-        // Load categories from Firebase
-        loadCategories();
-
-        etDateTime.setOnClickListener(v -> showDateTimePicker());
-
+        selectImageButton = findViewById(R.id.addImagebtn);
         btnSave.setOnClickListener(v -> saveEvent());
-    }
-
-    private void showDateTimePicker() {
-        final Calendar calendar = Calendar.getInstance();
-
-        DatePickerDialog datePickerDialog = new DatePickerDialog(this,
-                (view, year, month, dayOfMonth) -> {
-                    calendar.set(Calendar.YEAR, year);
-                    calendar.set(Calendar.MONTH, month);
-                    calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-
-                    TimePickerDialog timePickerDialog = new TimePickerDialog(this,
-                            (timeView, hourOfDay, minute) -> {
-                                calendar.set(Calendar.HOUR_OF_DAY, hourOfDay);
-                                calendar.set(Calendar.MINUTE, minute);
-
-                                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.getDefault());
-                                etDateTime.setText(sdf.format(calendar.getTime()));
-                            },
-                            calendar.get(Calendar.HOUR_OF_DAY),
-                            calendar.get(Calendar.MINUTE),
-                            true);
-
-                    timePickerDialog.show();
-                },
-                calendar.get(Calendar.YEAR),
-                calendar.get(Calendar.MONTH),
-                calendar.get(Calendar.DAY_OF_MONTH));
-
-        datePickerDialog.show();
-    }
-
-    private void loadCategories() {
-        categoriesRef.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                categoryList.clear();
-                categoryList.add("Select Category");  // Default placeholder
-                for (DataSnapshot categorySnapshot : snapshot.getChildren()) {
-                    String categoryName = categorySnapshot.child("name").getValue(String.class);
-                    if (categoryName != null) {
-                        categoryList.add(categoryName);
-                    }
-                }
-                categoryAdapter.notifyDataSetChanged();
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                Toast.makeText(AddEventActivity.this, "Failed to load categories", Toast.LENGTH_SHORT).show();
-            }
+        selectImageButton.setOnClickListener(v-> {
+            Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+            intent.setType("image/*");
+            startActivityForResult(intent, PICK_IMAGE);
         });
     }
-
+    
+    @Override 
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data){
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == PICK_IMAGE && resultCode == RESULT_OK && data != null){
+            // save image 
+            selectedImageUri = data.getData();
+        }
+        
+    } 
+    
+    
     private void saveEvent() {
         String name = etName.getText().toString().trim();
         String description = etDescription.getText().toString().trim();
-        String category = categorySpinner.getSelectedItem() != null ? categorySpinner.getSelectedItem().toString() : "";
+        String category = etCategory.getText().toString().trim();
         String feeText = etFee.getText().toString().trim();
         String dateTime = etDateTime.getText().toString().trim();
-
+        
+        if (selectedImageUri!=null){
+            StorageReference storageRef = FirebaseStorage.getInstance().getReference("posts_images");
+            String fileName = UUID.randomUUID().toString()+".jpg";
+            storageRef.child(fileName).putFile(selectedImageUri)
+                .addOnSuccessListener(taskSnaphsot -> {
+                    // get download url of uploaded image 
+                    storageRef.child(fileName).getDownloadUrl()
+                        .addOnSuccessListener(downloadUri -> {
+                            String imageUrl = downloadUri.toString();
+                            // continue the logic
+                            double fee = 0;
+                            try {
+                                if (!feeText.isEmpty()) fee = Double.parseDouble(feeText);
+                            } catch (NumberFormatException e) {
+                                etFee.setError("Invalid fee");
+                                return;
+                            }
+                            saveEventToDatabase(name, description, category, fee, dateTime, imageUrl);
+                            
+                        });
+            })
+            .addOnFailureListener(e -> {
+                Toast.makeText(this, "Image upload failed", Toast.LENGTH_SHORT).show();
+            });
+        } else {
+            // no image 
+            saveEventToDatabase(name, description, category, feeText, dateTime, null);
+        }
+        
+    }
+    
+    private void saveEventToDatabase(String name, String description, String category, double fee, String dateTime, String imageUrl){
+        
+        /*
+        ok so notice how the code below goes directly to check if name is empty and if proce is valid 
+        well it's important to know that the saveEvent method is the one that initializes these variables which are the event's attributes
+        and then it passes them as arguments to this method
+        so the answer to, how does this method already have the values and is able to check for invalid arguments
+        is that it has them because they are passed as an argument 
+        we are allowed to pass invalid arguments to this method, for example, empty name or other stuff 
+        and then this method handles it properly
+        */
         if (name.isEmpty()) {
             etName.setError("Event name is required");
             return;
         }
 
-        if (category.equals("Select Category") || category.isEmpty()) {
-            Toast.makeText(this, "Please select a valid category", Toast.LENGTH_SHORT).show();
-            return;
-        }
-
-        double fee = 0;
-        try {
-            if (!feeText.isEmpty()) fee = Double.parseDouble(feeText);
-        } catch (NumberFormatException e) {
-            etFee.setError("Invalid fee");
-            return;
-        }
-
-        if (FirebaseAuth.getInstance().getCurrentUser() == null) {
-            Toast.makeText(this, "User not authenticated", Toast.LENGTH_SHORT).show();
-            return;
-        }
-
+        
+        
         // Get current logged-in organizer's UID
         String organizerId = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
         String eventId = UUID.randomUUID().toString();
-        Event event = new Event(organizerId, name, description, category, fee, dateTime);
+        Event event = new Event(eventId, organizerId, name, description, category, fee, dateTime, imageUrl);
 
         eventsRef.child(eventId).setValue(event)
                 .addOnSuccessListener(aVoid -> {
@@ -161,5 +150,6 @@ public class AddEventActivity extends AppCompatActivity {
                     finish();
                 })
                 .addOnFailureListener(e -> Toast.makeText(this, "Failed to save: " + e.getMessage(), Toast.LENGTH_LONG).show());
+    
     }
 }
