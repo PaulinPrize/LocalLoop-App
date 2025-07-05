@@ -61,6 +61,24 @@ public class WelcomeActivity extends AppCompatActivity {
             layout.addView(showListOfUsersButton); // Add the button to the layout so it appears on screen
         }
 
+        if ("Organizer".equalsIgnoreCase(role)) {
+            Button createEventButton = new Button(this);
+            createEventButton.setText("Create Event");
+            createEventButton.setOnClickListener(v -> {
+                Intent intent = new Intent(WelcomeActivity.this, AddEventActivity.class); // Open AddEventActivity
+                startActivity(intent);
+            });
+            layout.addView(createEventButton); // Add the button to the layout
+
+            Button viewMyEventsButton = new Button(this);
+            viewMyEventsButton.setText("My Events");
+            viewMyEventsButton.setOnClickListener(v -> {
+                Intent intent = new Intent(WelcomeActivity.this, MyEventsActivity.class);
+                startActivity(intent);
+            });
+            layout.addView(viewMyEventsButton);
+        }
+
         // Create a logout button to sign out the user
         Button logoutButton = new Button(this);
         logoutButton.setText("Logout");

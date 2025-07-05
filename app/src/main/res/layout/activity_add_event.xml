@@ -41,16 +41,11 @@
             android:layout_marginTop="12dp"
             android:background="@drawable/edit_text_background" />
 
-        <EditText
-            android:id="@+id/etEventCategory"
+        <Spinner
+            android:id="@+id/spinnerEventCategory"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/event_category"
-            android:inputType="text"
-            android:autofillHints="category"
-            android:padding="12dp"
-            android:layout_marginTop="12dp"
-            android:background="@drawable/edit_text_background" />
+            android:layout_marginTop="12dp" />
 
         <EditText
             android:id="@+id/etEventFee"
@@ -72,7 +67,10 @@
             android:autofillHints="eventDateTime"
             android:padding="12dp"
             android:layout_marginTop="12dp"
-            android:background="@drawable/edit_text_background" />
+            android:background="@drawable/edit_text_background"
+            android:focusable="false"
+            android:clickable="true"
+            />
 
         <Button
             android:id="@+id/btnSaveEvent"
@@ -85,7 +83,7 @@
             android:backgroundTint="#6d4c41"
             android:textColor="#ffffff"
             android:layout_gravity="center" />
-
+        <!--
         <Button
             android:id="@+id/btnDeleteEvent"
             android:layout_width="match_parent"
@@ -97,6 +95,6 @@
             android:backgroundTint="#d32f2f"
             android:textColor="#ffffff"
             android:visibility="gone" />
-
+        -->
     </LinearLayout>
 </ScrollView>
