@@ -55,6 +55,7 @@ public class MyEventsActivity extends AppCompatActivity {
                 for (DataSnapshot eventSnapshot : snapshot.getChildren()) {
                     Event event = eventSnapshot.getValue(Event.class);
                     if (event != null && event.getOrganizerId().equals(currentUserId)) {
+                        event.setId(eventSnapshot.getKey());
                         eventList.add(event);
                     }
                 }

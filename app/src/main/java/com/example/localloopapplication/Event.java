@@ -1,6 +1,7 @@
 package com.example.localloopapplication;
 
 public class Event {
+    private String id;
     private String organizerId;
     private String name;
     private String description;
@@ -25,6 +26,8 @@ public class Event {
     }
 
     // Getters and setters for all fields, I will test it and see how it will work
+    public String getId() { return id; }
+    public void setId(String id) { this.id = id; }
 
     public String getOrganizerId() { return organizerId; }
     public void setOrganizerId(String organizerId) { this.organizerId = organizerId; }
@@ -36,7 +39,7 @@ public class Event {
     public void setDescription(String description) { this.description = description; }
 
     public String getCategory() { return categoryId; }
-    public void setCategory(String category) { this.categoryId = categoryId; }
+    public void setCategory(String category) { this.categoryId = category; }
 
     public double getFee() { return fee; }
     public void setFee(double fee) { this.fee = fee; }
