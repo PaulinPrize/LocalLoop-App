@@ -35,16 +35,22 @@ public class MyEventsActivity extends AppCompatActivity {
         recyclerView = findViewById(R.id.recyclerEvents);
         progressBar = findViewById(R.id.progressBar);
         emptyView = findViewById(R.id.emptyView);
-
+        
+        LinearLayout confirmationlayout = findViewById(R.id.confirmationLayout);
+        TextView txtEventName = findViewById(R.id.txtEventName);
+        Button btnYes = findViewById(R.id.btnYes);
+        Button btnNo = findViewById(R.id.btnNo);
+        
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         eventList = new ArrayList<>();
-        adapter = new EventAdapter(eventList);
+        adapter = new EventAdapter(this, eventList);
         recyclerView.setAdapter(adapter);
 
         organizerId = FirebaseAuth.getInstance().getCurrentUser().getUid();
         eventsRef = FirebaseDatabase.getInstance().getReference("events");
-
+        
         fetchEvents();
+    
     }
 
     private void fetchEvents() {

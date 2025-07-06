@@ -7,7 +7,7 @@ public class Event {
     private String categoryId;
     private double fee;
     private String dateTime;
-
+    private String eventId;
 
 
     public Event() {
@@ -15,13 +15,14 @@ public class Event {
     }
 
     public Event(String organizerId, String name, String description,
-                 String categoryId, double fee, String dateTime) {
+                 String categoryId, double fee, String dateTime, String eventId) {
         this.organizerId = organizerId;
         this.name = name;
         this.description = description;
         this.categoryId = categoryId;
         this.fee = fee;
         this.dateTime = dateTime;
+        this.eventId = eventId;
     }
 
     // Getters and setters for all fields, I will test it and see how it will work
@@ -43,4 +44,7 @@ public class Event {
 
     public String getDateTime() { return dateTime; }
     public void setDateTime(String dateTime) { this.dateTime = dateTime; }
+    
+    public String getId() { return eventId; }
+    public void setEventId(String eventId) { this.eventId = eventId; }
 }

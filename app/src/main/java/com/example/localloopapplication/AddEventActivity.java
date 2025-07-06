@@ -153,7 +153,7 @@ public class AddEventActivity extends AppCompatActivity {
         String organizerId = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
         String eventId = UUID.randomUUID().toString();
-        Event event = new Event(organizerId, name, description, category, fee, dateTime);
+        Event event = new Event(organizerId, name, description, category, fee, dateTime, eventId);
 
         eventsRef.child(eventId).setValue(event)
                 .addOnSuccessListener(aVoid -> {
