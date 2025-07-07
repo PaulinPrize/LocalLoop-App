@@ -37,16 +37,21 @@ public class AddEventActivity extends AppCompatActivity {
     private ArrayList<String> categoryList = new ArrayList<>();
     private ArrayAdapter<String> categoryAdapter;
 
+    private boolean isEditing = false;
+    private String editingEventId = null;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        isEditing = getIntent().getBooleanExtra("isEditing", false);
+        
         setContentView(R.layout.activity_add_event); // We'll build this layout next
 
         // Firebase reference to "events" table
         eventsRef = FirebaseDatabase.getInstance().getReference("events");
         categoriesRef = FirebaseDatabase.getInstance().getReference("event_categories");
 
-
+        // flag block of code 
         // Link input fields
         etName = findViewById(R.id.etEventName);
         etDescription = findViewById(R.id.etEventDescription);
@@ -54,7 +59,30 @@ public class AddEventActivity extends AppCompatActivity {
         etFee = findViewById(R.id.etEventFee);
         etDateTime = findViewById(R.id.etEventDateTime);
         btnSave = findViewById(R.id.btnSaveEvent);
+        // end flag 
+        
+        if (isEditing) {
+            String eventId = getIntent().getStringExtra("eventId");
+            String name = getIntent().getStringExtra("name");
+            String description = getIntent().getStringExtra("description");
+            String category = getIntent().getStringExtra("category");
+            double fee = getIntent().getDoubleExtra("fee", 0);
+            String dateTime = getIntent().getStringExtra("dateTime");
 
+            etName.setText(name);
+            etDescription.setText(description);
+            etFee.setText(String.valueOf(fee));
+            etDateTime.setText(dateTime);
+
+            categorySpinner.post(() -> {
+                int index = categoryList.indexOf(category);
+                if (index >= 0) {
+                    categorySpinner.setSelection(index);
+                }
+            });
+            this.editingEventId = eventId;
+        }
+        
         // Initialize category spinner adapter
         categoryAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, categoryList);
         categorySpinner.setAdapter(categoryAdapter);
@@ -151,10 +179,18 @@ public class AddEventActivity extends AppCompatActivity {
 
         // Get current logged-in organizer's UID
         String organizerId = FirebaseAuth.getInstance().getCurrentUser().getUid();
-
-        String eventId = UUID.randomUUID().toString();
+        
+        // flag block of code 
+        //String eventId = UUID.randomUUID().toString();
+        // end flag
+        String eventId;
+        if(isEditing && editingEventId != null){
+            eventId = editingEventId;
+        } else {
+            eventId = UUID.randomUUID().toString();
+        }
         Event event = new Event(organizerId, name, description, category, fee, dateTime);
-
+        event.setId(eventId);
         eventsRef.child(eventId).setValue(event)
                 .addOnSuccessListener(aVoid -> {
                     Toast.makeText(this, "Event saved successfully", Toast.LENGTH_SHORT).show();

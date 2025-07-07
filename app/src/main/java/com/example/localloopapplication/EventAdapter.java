@@ -60,6 +60,17 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.EventViewHol
                     .setNegativeButton("No", null)
                     .show();
         });
+        holder.btnEdit.setOnClickListener(v -> {
+            Intent intent = new Intent(this, AddEventActivity.class);
+            intent.putExtra("isEditing", true);
+            intent.putExtra("eventId", event.getId());
+            intent.putExtra("name", event.getName());
+            intent.putExtra("description", event.getDescription());
+            intent.putExtra("category", event.getCategory());
+            intent.putExtra("fee", event.getFee());
+            intent.putExtra("dateTime", event.getDateTime());
+            context.startActivity(intent);
+        });
 
     }
 
