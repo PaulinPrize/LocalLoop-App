@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -38,28 +39,35 @@ public class CategoryAdapter extends ArrayAdapter<Category> {
         // Find views in the row layout
         TextView tvName = convertView.findViewById(R.id.tvCategoryName);
         TextView tvDesc = convertView.findViewById(R.id.tvCategoryDescription);
-        Button btnEdit = convertView.findViewById(R.id.btnEdit);
-        Button btnDelete = convertView.findViewById(R.id.btnDelete);
+        Button btnEdit = convertView.findViewById(R.id.btnCatEdit);
+        ImageButton btnDelete = convertView.findViewById(R.id.btnDelete);
 
         // Set text values from the category object
         tvName.setText(category.getName());
         tvDesc.setText(category.getDescription());
 
-        // Delete button: removes the category from Firebase and updates UI
+        // Delete button: removes the category from Firebase and updates UI ( pop up made to confirm)
         btnDelete.setOnClickListener(v -> {
-            FirebaseDatabase.getInstance().getReference("event_categories")
-                    .child(category.getId()).removeValue()
-                    .addOnSuccessListener(aVoid -> {
-                        Toast.makeText(context, "Category deleted", Toast.LENGTH_SHORT).show();
-
-                        // Remove from local list and notify adapter to refresh the list view
-                        categories.remove(category);
-                        notifyDataSetChanged();
+            new androidx.appcompat.app.AlertDialog.Builder(context)
+                    .setTitle("Delete Category")
+                    .setMessage("Are you sure you want to delete this category?")
+                    .setPositiveButton("Yes", (dialog, which) -> {
+                        // User confirmed deletion
+                        FirebaseDatabase.getInstance().getReference("event_categories")
+                                .child(category.getId()).removeValue()
+                                .addOnSuccessListener(aVoid -> {
+                                    Toast.makeText(context, "Category deleted", Toast.LENGTH_SHORT).show();
+                                    categories.remove(category);
+                                    notifyDataSetChanged();
+                                })
+                                .addOnFailureListener(e -> {
+                                    Toast.makeText(context, "Delete failed", Toast.LENGTH_SHORT).show();
+                                });
                     })
-                    .addOnFailureListener(e -> {
-                        Toast.makeText(context, "Delete failed", Toast.LENGTH_SHORT).show();
-                    });
+                    .setNegativeButton("Cancel", null)
+                    .show();
         });
+
 
         // Edit button: opens AddCategoryActivity with existing data passed via Intent
         btnEdit.setOnClickListener(v -> {

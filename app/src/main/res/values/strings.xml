@@ -27,9 +27,11 @@
     <string name="logout_button">LogOUT</string>
     <string name="add_user_button">Add Users</string>
 
-    <string name="categories_text_view">Adding New Category</string>
+    <string name="categories_text_view">Create Category</string>
     <string name="category_text_hint">Enter your category Name</string>
     <string name="manage_category_textView">Manage the Categories</string>
+    <string name="logo_desc">create new category logo</string>
+
 
     <string name="btnSubmitCategory"> Submit </string>
 

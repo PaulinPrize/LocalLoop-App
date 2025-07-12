@@ -40,7 +40,7 @@
                 android:textStyle="bold" />
 
             <Button
-                android:id="@+id/categoryEditButton"
+                android:id="@+id/btnCatEdit"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"

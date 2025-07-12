@@ -14,17 +14,24 @@
         android:orientation="horizontal"
         android:gravity="center_vertical"
         android:paddingBottom="8dp">
-
+        <ImageView
+            android:id="@+id/logoImage"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginEnd="8dp"
+            android:contentDescription="@string/logo_desc"
+            android:src="@drawable/list" />
         <TextView
             android:id="@+id/titleText"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="@string/all_categorie_text"
-
             android:textColor="#000000"
-            android:textSize="20sp"
-            android:textStyle="bold" />
+            android:textSize="28sp"
+            android:textStyle="bold"
+            android:fontFamily="sans-serif-medium"
+          />
 
     </LinearLayout>
 
@@ -33,7 +40,7 @@
         android:layout_width="match_parent"
         android:layout_height="13dp" />
 
-    <androidx.recyclerview.widget.RecyclerView
+    <ListView
         android:id="@+id/listViewCategories"
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -49,8 +56,9 @@
         android:id="@+id/btnCreateCategory"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:backgroundTint="#6200EE"
-
+        android:textStyle="bold"
+        android:textColor="@android:color/white"
+        android:backgroundTint="#1E88E5"
         android:text="@string/create_new_categorie_button"
-        android:textColor="#FFFFFF" />
+         />
 </LinearLayout>

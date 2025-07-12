@@ -1,5 +1,6 @@
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
@@ -12,6 +13,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/Event_title"
+        android:textColor="#000000"
         android:textSize="18sp"
         android:textStyle="bold" />
 
@@ -21,6 +23,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
         android:text="@string/Event_description_hint"
+        android:textColor="#000000"
         android:textSize="14sp" />
 
     <LinearLayout
@@ -34,14 +37,21 @@
             android:id="@+id/btnCatEdit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:textColor="@android:color/white"
+            android:backgroundTint="#1E88E5"
             android:text="@string/edit_button" />
 
-        <Button
+        <ImageButton
             android:id="@+id/btnDelete"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_marginTop="4dp"
             android:layout_marginStart="8dp"
-            android:backgroundTint="#E57373"
-            android:text="@string/delete_button" />
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:src="@drawable/delete"
+            android:scaleType="fitCenter"
+            android:contentDescription="@string/delete_button"
+            app:tint="@null" />
     </LinearLayout>
 </LinearLayout>
