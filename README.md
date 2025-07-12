@@ -6,5 +6,4 @@ LocalLoop App Task Tracker : https://github.com/users/PaulinPrize/projects/7
 PRISO PRISO PAULIN ARNOLD : 300415757
 Sarah Abada : 300201425
 Asli Ibrahim:300367015
-NANA DOMO Franck Stalone : 300428915
 Maha Dibo: 300330639

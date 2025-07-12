@@ -54,4 +54,5 @@
             android:contentDescription="@string/delete_button"
             app:tint="@null" />
     </LinearLayout>
+
 </LinearLayout>

@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -67,7 +68,6 @@ public class CategoryAdapter extends ArrayAdapter<Category> {
                     .setNegativeButton("Cancel", null)
                     .show();
         });
-
 
         // Edit button: opens AddCategoryActivity with existing data passed via Intent
         btnEdit.setOnClickListener(v -> {

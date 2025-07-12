@@ -26,6 +26,9 @@
         <activity android:name=".UserListActivity" android:exported="false" />
         <activity android:name=".CategoryListActivity" android:exported="false" />
         <activity android:name=".AddCategoryActivity" android:exported="false" />
+        <activity android:name=".AddUserActivity" />
+        <activity android:name=".AddEventActivity" />
+        <activity android:name=".MyEventsActivity" />
     </application>
 </manifest>
 
