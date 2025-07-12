@@ -17,16 +17,26 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
+/**
+ * AdminWelcomeActivity displays a welcome message and a list of all users retrieved from Firebase.
+ * Admin can tap on a user to see their details.
+ */
 public class AdminWelcomeActivity extends AppCompatActivity {
 
-    private TextView welcomeText;
+    private TextView welcomeText; // Displays welcome message
     private ListView userListView; // ListView to display user data
-    //private ArrayList<String> userList; // List to hold the user data (email, name, etc.)
+
+    // Adapter for displaying users in the ListView
     private com.example.localloopapplication.UserAdapter adapter;
 
+    // Reference to "users" table in Firebase
     private DatabaseReference mDatabase;
-    private ArrayList<User> userList; // Store User objects now
+    // List to store User objects
+    private ArrayList<User> userList;
 
+    /**
+     * Called when the activity is starting. Initializes UI, sets up adapter, and loads user data.
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,14 +46,16 @@ public class AdminWelcomeActivity extends AppCompatActivity {
         welcomeText = findViewById(R.id.welcomeText);
         userListView = findViewById(R.id.userListView);
 
+        // Initialize the user list and adapter
         userList = new ArrayList<>();
         adapter = new com.example.localloopapplication.UserAdapter(this, userList);
         userListView.setAdapter(adapter);
 
-        // Set item click listener here
+        // Set item click listener to handle user selection
         userListView.setOnItemClickListener((parent, view, position, id) -> {
             User clickedUser = userList.get(position);
 
+            // Open UserDetailsActivity, passing selected user's details
             Intent intent = new Intent(AdminWelcomeActivity.this, UserDetailsActivity.class);
             intent.putExtra("email", clickedUser.email);
             intent.putExtra("firstName", clickedUser.firstname);
@@ -53,27 +65,34 @@ public class AdminWelcomeActivity extends AppCompatActivity {
             startActivity(intent);
         });
 
-        // Get reference to Firebase Realtime Database
+        // Get reference to Firebase Realtime Database "users" node
         mDatabase = FirebaseDatabase.getInstance().getReference("users");
 
         // Load user list from Firebase
         loadUsers();
     }
 
-//This method retrieve data from the database
+    /**
+     * Retrieves user data from Firebase and updates the userList.
+     * Listens for any data changes and updates the UI accordingly.
+     */
     private void loadUsers() {
         mDatabase.addValueEventListener(new ValueEventListener() {
 
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
+                // Clear old data
                 userList.clear();
 
+                // Iterate over all users in the database
                 for (DataSnapshot userSnapshot : dataSnapshot.getChildren()) {
+                    // Parse snapshot into User object
                     User user = userSnapshot.getValue(User.class);
                     if (user != null) {
                         userList.add(user);
                     }
                 }
+                // Notify adapter that data has changed so ListView refreshes
                 adapter.notifyDataSetChanged();
             }
 
