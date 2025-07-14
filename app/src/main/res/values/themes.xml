@@ -1,9 +1,29 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
     <style name="Base.Theme.LocalLoopApplication" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Customize your light theme here. -->
-        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+        <!-- Set background and primary colors -->
+        <item name="android:colorBackground">@color/appBackground</item>
+        <item name="colorOnBackground">@color/textPrimary</item>
+
+        <!-- Primary (e.g. buttons, app accents) -->
+        <item name="colorPrimary">@color/buttonPrimary</item>
+        <item name="colorOnPrimary">@color/white</item>
+
+        <!-- Secondary text -->
+        <item name="colorSecondary">@color/textSecondary</item>
+        <item name="colorOnSecondary">@color/white</item>
+
+        <!-- Button ripple, surface, etc. -->
+        <item name="colorSurface">@color/cardBackground</item>
+        <item name="colorOnSurface">@color/textPrimary</item>
+
+        <!-- Outline for text fields or borders -->
+        <item name="colorOutline">@color/inputBorder</item>
+
+        <!-- Optional: icon, tint colors -->
+        <item name="android:textColor">@color/textPrimary</item>
     </style>
 
+    <!-- Actual app theme -->
     <style name="Theme.LocalLoopApplication" parent="Base.Theme.LocalLoopApplication" />
 </resources>
