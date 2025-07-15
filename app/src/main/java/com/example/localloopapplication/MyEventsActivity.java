@@ -2,7 +2,6 @@ package com.example.localloopapplication;
 
 import android.os.Bundle;
 import android.view.View;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -20,7 +19,6 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Activity that displays the events created by the current user (organizer).
@@ -31,6 +29,7 @@ public class MyEventsActivity extends AppCompatActivity {
     private EventAdapter adapter;             // Adapter for RecyclerView
     private ArrayList<Event> eventList = new ArrayList<>(); // List holding events for this user
     private DatabaseReference eventsRef;      // Firebase reference to "events" node
+    private TextView txtNoEvents;             // TextView for "No events" message
 
     /**
      * Called when the activity is starting. Initializes UI components and loads user's events.
@@ -40,8 +39,11 @@ public class MyEventsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_events);
 
-        // Set up RecyclerView with linear layout and adapter
+        // Find views
         recyclerView = findViewById(R.id.recyclerViewMyEvents);
+        txtNoEvents = findViewById(R.id.txtNoEvents);
+
+        // Set up RecyclerView with linear layout and adapter
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         adapter = new EventAdapter(eventList);
         recyclerView.setAdapter(adapter);
@@ -68,6 +70,7 @@ public class MyEventsActivity extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 eventList.clear(); // Clear old data before updating
+
                 for (DataSnapshot eventSnapshot : snapshot.getChildren()) {
                     Event event = eventSnapshot.getValue(Event.class);
                     // Only include events organized by the current user
@@ -76,7 +79,17 @@ public class MyEventsActivity extends AppCompatActivity {
                         eventList.add(event);
                     }
                 }
+
                 adapter.notifyDataSetChanged(); // Notify adapter that data has changed
+
+                // Show or hide "No events" message
+                if (eventList.isEmpty()) {
+                    txtNoEvents.setVisibility(View.VISIBLE);
+                    recyclerView.setVisibility(View.GONE);
+                } else {
+                    txtNoEvents.setVisibility(View.GONE);
+                    recyclerView.setVisibility(View.VISIBLE);
+                }
             }
 
             @Override
