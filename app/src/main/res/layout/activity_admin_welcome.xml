@@ -3,7 +3,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="16dp">
+    android:padding="20dp"
+    android:background="#fffaf5">
 
     <!-- Admin Welcome Message -->
     <TextView
@@ -12,13 +13,17 @@
         android:layout_height="wrap_content"
         android:text="Welcome Admin!"
         android:textSize="18sp"
-        android:paddingBottom="16dp"/>
+        android:textColor="#6d4c41"
+        android:textStyle="bold"
+        android:paddingBottom="16dp" />
 
     <!-- List of Users -->
     <ListView
         android:id="@+id/userListView"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1" />
+        android:layout_weight="1"
+        android:dividerHeight="8dp"
+        android:background="#ffffff" />
 
 </LinearLayout>

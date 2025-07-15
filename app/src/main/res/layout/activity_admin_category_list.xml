@@ -3,62 +3,56 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="16dp"
-    android:background="#F5F5F5"
+    android:padding="20dp"
+    android:background="#fffaf5"
     android:fitsSystemWindows="true">
 
-    <!-- Top Bar with Title and Button -->
+    <!-- Top Bar with Title -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:gravity="center_vertical"
         android:paddingBottom="8dp">
-        <ImageView
-            android:id="@+id/logoImage"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_marginEnd="8dp"
-            android:contentDescription="@string/logo_desc"
-            android:src="@drawable/list" />
+
         <TextView
             android:id="@+id/titleText"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="@string/all_categorie_text"
-            android:textColor="#000000"
-            android:textSize="28sp"
-            android:textStyle="bold"
-            android:fontFamily="sans-serif-medium"
-          />
-
+            android:textColor="#6d4c41"
+            android:textSize="20sp"
+            android:textStyle="bold" />
     </LinearLayout>
 
-    <!-- The ListView showing categories -->
+    <!-- Spacing -->
     <Space
         android:layout_width="match_parent"
         android:layout_height="13dp" />
 
+    <!-- ListView of Categories -->
     <ListView
         android:id="@+id/listViewCategories"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
         android:dividerHeight="8dp"
-        android:background="#FFFFFF" />
+        android:background="#ffffff" />
 
+    <!-- Spacing -->
     <Space
         android:layout_width="match_parent"
         android:layout_height="13dp" />
 
+    <!-- Create Button -->
     <Button
         android:id="@+id/btnCreateCategory"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textStyle="bold"
-        android:textColor="@android:color/white"
-        android:backgroundTint="#1E88E5"
+        android:backgroundTint="#6d4c41"
         android:text="@string/create_new_categorie_button"
-         />
+        android:textColor="#ffffff"
+        android:padding="12dp"
+        android:layout_gravity="center_horizontal" />
 </LinearLayout>

@@ -1,5 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- Base colors -->
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+
+    <!-- App theme -->
+    <color name="appBackground">#fffaf5</color>
+    <color name="cardBackground">#ffffff</color>
+
+    <!-- Primary text and accent -->
+    <color name="textPrimary">#6d4c41</color>       <!-- Soft brown -->
+    <color name="textSecondary">#7c6f66</color>     <!-- Brown-gray -->
+
+    <!-- Buttons -->
+    <color name="buttonPrimary">#6d4c41</color>     <!-- Brown -->
+    <color name="buttonDelete">#d32f2f</color>      <!-- Red (Material) -->
+    <color name="buttonConfirm">#388e3c</color>     <!-- Green -->
+    <color name="buttonCancel">#009688</color>      <!-- Teal -->
+
+    <!-- Hints and borders -->
+    <color name="hintText">#aaa193</color>
+    <color name="inputBorder">#ccc5b9</color>
+
+    <!-- Optional -->
+    <color name="buttonNeutral">#AB7E7E</color>
 </resources>

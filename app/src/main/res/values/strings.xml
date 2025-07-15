@@ -2,104 +2,90 @@
 
     <string name="app_name">LocalLoop Application</string>
 
+    <!-- Roles -->
     <string-array name="roles_array">
         <item>Organizer</item>
         <item>Participant</item>
     </string-array>
-
     <string-array name="add_user_roles_array">
         <item>Organizer</item>
         <item>Participant</item>
     </string-array>
 
+    <!-- Authentication -->
     <string name="login_button">Login</string>
-
     <string name="register_button">Register</string>
-    <string name="all_categorie_text">All Categories</string>
-    <string name="create_new_categorie_button">Create New</string>
-    <string name="show_all_user_button">Shows all Users</string>
+    <string name="new_account_textView">Create a New Account</string>
 
+    <!-- Email / Password -->
     <string name="email_text_field">Email</string>
     <string name="email_text_hint">Please enter an email</string>
+    <string name="password_text_field">Password</string>
+    <string name="password_text_hint">Please enter a password</string>
 
-    <string name="new_account_textView">Creating a New Account</string>
-
-
-    <string name="password_text_field">PassWord</string>
-    <string name="password_text_hint">Please enter a Password</string>
-
-    <string name="manage_event_button">Manage Events</string>
-    <string name="logout_button">LogOUT</string>
-    <string name="add_user_button">Add Users</string>
-
-    <string name="categories_text_view">Create Category</string>
-    <string name="category_text_hint">Enter your category Name</string>
-    <string name="manage_category_textView">Manage the Categories</string>
-    <string name="logo_desc">create new category logo</string>
-
-
-    <string name="btnSubmitCategory"> Submit </string>
-
-    <string name="categorie_description_text_field">Description</string>
-    <string name="Category_description_hint">Please describe your categories</string>
-
-    <string name="add_new_category">Add Category</string>
-    <string name="add_category">Add</string>
-
-    <string name="edit_category">Edit Existing</string>
-    <string name="edit_category_button">Edit</string>
-
-
-    <string name="delete_category">Delete Existing</string>
-    <string name="delete_category_button">Delete</string>
-
-    <string name="login_menuTextView">LocalLoop App</string>
-
+    <!-- Navigation / General Actions -->
+    <string name="logout_button">Logout</string>
     <string name="submit_button">Submit</string>
+    <string name="add_user_button">Add User</string>
+    <string name="show_all_user_button">Show All Users</string>
 
-    <string name="listUsers">List of Current Users</string>
-
-    <string name="Event_title">Event Title</string>
-
-    <string name="Event_description_hint">Please Provide an Event Description</string>
-
-    <string name="edit_button">Edit</string>
-
-    <string name="delete_button">Delete</string>
-
-    <string name="user_email">Email : </string>
-    <string name="user_role">Role :</string>
-    <string name="user_full_name">Full Name :</string>
-    <string name="user_information">User Information</string>
-    <string name="user_settings">User Settings</string>
-    <string name="user_edit_button">Inactivate</string>
-    <string name="user_statut">Reactivate</string>
-    <string name="user_delete">Delete</string>
-    <string name="yES_delete">YES</string>
-    <string name="nO_delete">NO</string>
-    <string name="confirmation_deleteTextView">Confirmation Message</string>
-    <string name="confirmation_delete"> Are you sure you want to proceed ? </string>
-
-    <string name="first_name_input">Enter your first name</string>
-    <string name="last_name_input">Enter your last name</string>
-    <string name="email_input">Enter your email</string>
-    <string name="role_input">Enter your role</string>
-
-
-
-
+    <!-- Event Management -->
     <string name="create_new_event">Create New Event</string>
     <string name="event_name">Event Name</string>
     <string name="event_description">Description</string>
     <string name="event_category">Category</string>
     <string name="participation_fee">Participation Fee</string>
-    <string name="event_datetime_hint">Date &#8211; Time (e.g. 2025&#8211;07&#8211;01 14:00)</string>
+    <string name="event_datetime_hint">Date – Time (e.g. 2025–07–01 14:00)</string>
     <string name="save_event">Save Event</string>
     <string name="delete_event">Delete Event</string>
-    <string name="Event_fee_hint">Event_fee_hint</string>
-    <string name="Event_date_hint">Event_date_hint</string>
+    <string name="manage_event_button">Manage Events</string>
 
+    <!-- Categories -->
+    <string name="all_categorie_text">All Categories</string>
+    <string name="create_new_categorie_button">Create New</string>
+    <string name="categories_text_view">Add New Category</string>
+    <string name="category_text_hint">Enter a category name</string>
+    <string name="categorie_description_text_field">Description</string>
+    <string name="Category_description_hint">Please describe the category</string>
+    <string name="manage_category_textView">Manage Categories</string>
+    <string name="add_new_category">Add Category</string>
+    <string name="add_category">Add</string>
+    <string name="edit_category">Edit Category</string>
+    <string name="edit_category_button">Edit</string>
+    <string name="delete_category">Delete Category</string>
+    <string name="delete_category_button">Delete</string>
+    <string name="btnSubmitCategory">Submit</string>
+
+    <!-- List / UI Texts -->
+    <string name="listUsers">List of Users</string>
+    <string name="login_menuTextView">LocalLoop App</string>
+    <string name="Event_title">Event Title</string>
+    <string name="Event_description_hint">Please provide an event description</string>
+
+    <!-- Buttons -->
+    <string name="edit_button">Edit</string>
+    <string name="delete_button">Delete</string>
+
+    <!-- User Info -->
+    <string name="user_information">User Information</string>
+    <string name="user_full_name">Full Name:</string>
+    <string name="user_email">Email:</string>
+    <string name="user_role">Role:</string>
+    <string name="user_settings">User Settings</string>
+    <string name="user_edit_button">Inactivate</string>
+    <string name="user_statut">Reactivate</string>
+    <string name="user_delete">Delete</string>
+
+    <!-- Confirmation -->
+    <string name="confirmation_deleteTextView">Confirmation Message</string>
+    <string name="confirmation_delete">Are you sure you want to proceed?</string>
+    <string name="yES_delete">YES</string>
+    <string name="nO_delete">NO</string>
+
+    <!-- Inputs -->
+    <string name="first_name_input">Enter your first name</string>
+    <string name="last_name_input">Enter your last name</string>
+    <string name="email_input">Enter your email</string>
+    <string name="role_input">Enter your role</string>
 
 </resources>
-
-

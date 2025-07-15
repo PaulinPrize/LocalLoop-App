@@ -1,21 +1,21 @@
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
     android:elevation="2dp"
     android:padding="16dp"
-    android:layout_marginBottom="8dp">
+    android:layout_marginBottom="8dp"
+    android:background="#ffffff">
 
     <TextView
         android:id="@+id/tvCategoryName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/Event_title"
-        android:textColor="#000000"
         android:textSize="18sp"
-        android:textStyle="bold" />
+        android:textStyle="bold"
+        android:textColor="#6d4c41" />
 
     <TextView
         android:id="@+id/tvCategoryDescription"
@@ -23,8 +23,8 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
         android:text="@string/Event_description_hint"
-        android:textColor="#000000"
-        android:textSize="14sp" />
+        android:textSize="14sp"
+        android:textColor="#7c6f66" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -34,25 +34,71 @@
         android:layout_marginTop="8dp">
 
         <Button
-            android:id="@+id/btnCatEdit"
+            android:id="@+id/btnEdit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textStyle="bold"
-            android:textColor="@android:color/white"
-            android:backgroundTint="#1E88E5"
-            android:text="@string/edit_button" />
+            android:text="@string/edit_button"
+            android:textColor="#ffffff"
+            android:backgroundTint="#6d4c41" />
 
-        <ImageButton
+        <Button
             android:id="@+id/btnDelete"
-            android:layout_width="35dp"
-            android:layout_height="35dp"
-            android:layout_marginTop="4dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:background="?attr/selectableItemBackgroundBorderless"
-            android:src="@drawable/delete"
-            android:scaleType="fitCenter"
-            android:contentDescription="@string/delete_button"
-            app:tint="@null" />
+            android:text="@string/delete_button"
+            android:textColor="#ffffff"
+            android:backgroundTint="#d32f2f" />
     </LinearLayout>
 
+    <!-- Confirmation layout -->
+    <LinearLayout
+        android:id="@+id/confirmationLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:layout_marginTop="8dp"
+        android:visibility="gone">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Confirm delete?"
+            android:padding="8dp"
+            android:textColor="#6d4c41" />
+
+        <TextView
+            android:id="@+id/txtEventName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Event Name"
+            android:textColor="#6d4c41" />
+
+        <TextView
+            android:id="@+id/txtEventDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Event Date"
+            android:layout_marginStart="4dp"
+            android:textColor="#6d4c41" />
+
+        <Button
+            android:id="@+id/btnYes"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Yes"
+            android:textColor="#ffffff"
+            android:layout_marginStart="8dp"
+            android:backgroundTint="#388e3c" />
+
+        <Button
+            android:id="@+id/btnNo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="No"
+            android:textColor="#ffffff"
+            android:layout_marginStart="8dp"
+            android:backgroundTint="#d32f2f" />
+    </LinearLayout>
 </LinearLayout>
