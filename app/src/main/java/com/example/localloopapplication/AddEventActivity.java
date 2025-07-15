@@ -26,45 +26,63 @@ import java.util.Calendar;
 import java.util.Locale;
 import java.util.UUID;
 
-/**
- * Activity for adding a new event to the database.
- * Handles input for event name, description, category, fee, and date/time.
- * Loads categories from Firebase and saves events under "events".
- */
 public class AddEventActivity extends AppCompatActivity {
 
-    // Input fields for event information
     private EditText etName, etDescription, etFee, etDateTime;
     private Spinner categorySpinner;
     private Button btnSave;
 
-    // Firebase database references for events and categories
     private DatabaseReference eventsRef, categoriesRef;
 
-    // List and adapter for categories spinner
     private ArrayList<String> categoryList = new ArrayList<>();
     private ArrayAdapter<String> categoryAdapter;
 
-    /**
-     * onCreate initializes the activity, sets up UI and loads event categories.
-     */
+    private boolean isEditing = false;
+    private String editingEventId = null;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        isEditing = getIntent().getBooleanExtra("isEditing", false);
+        
         setContentView(R.layout.activity_add_event); // We'll build this layout next
 
         // Firebase reference to "events" table
         eventsRef = FirebaseDatabase.getInstance().getReference("events");
         categoriesRef = FirebaseDatabase.getInstance().getReference("event_categories");
 
-        // Link input fields to layout views
+        // flag block of code 
+        // Link input fields
         etName = findViewById(R.id.etEventName);
         etDescription = findViewById(R.id.etEventDescription);
         categorySpinner = findViewById(R.id.spinnerEventCategory);
         etFee = findViewById(R.id.etEventFee);
         etDateTime = findViewById(R.id.etEventDateTime);
         btnSave = findViewById(R.id.btnSaveEvent);
+        // end flag 
+        
+        if (isEditing) {
+            String eventId = getIntent().getStringExtra("eventId");
+            String name = getIntent().getStringExtra("name");
+            String description = getIntent().getStringExtra("description");
+            String category = getIntent().getStringExtra("category");
+            double fee = getIntent().getDoubleExtra("fee", 0);
+            String dateTime = getIntent().getStringExtra("dateTime");
 
+            etName.setText(name);
+            etDescription.setText(description);
+            etFee.setText(String.valueOf(fee));
+            etDateTime.setText(dateTime);
+
+            categorySpinner.post(() -> {
+                int index = categoryList.indexOf(category);
+                if (index >= 0) {
+                    categorySpinner.setSelection(index);
+                }
+            });
+            this.editingEventId = eventId;
+        }
+        
         // Initialize category spinner adapter
         categoryAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, categoryList);
         categorySpinner.setAdapter(categoryAdapter);
@@ -72,33 +90,25 @@ public class AddEventActivity extends AppCompatActivity {
         // Load categories from Firebase
         loadCategories();
 
-        // Set up date/time picker dialog on date/time field click
         etDateTime.setOnClickListener(v -> showDateTimePicker());
 
-        // Save event when button is clicked
         btnSave.setOnClickListener(v -> saveEvent());
     }
 
-    /**
-     * Displays dialogs for picking date and time, and sets the selected value in the date/time field.
-     */
     private void showDateTimePicker() {
         final Calendar calendar = Calendar.getInstance();
 
-        // Show date picker dialog
         DatePickerDialog datePickerDialog = new DatePickerDialog(this,
                 (view, year, month, dayOfMonth) -> {
                     calendar.set(Calendar.YEAR, year);
                     calendar.set(Calendar.MONTH, month);
                     calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
 
-                    // Show time picker dialog after date is selected
                     TimePickerDialog timePickerDialog = new TimePickerDialog(this,
                             (timeView, hourOfDay, minute) -> {
                                 calendar.set(Calendar.HOUR_OF_DAY, hourOfDay);
                                 calendar.set(Calendar.MINUTE, minute);
 
-                                // Format and set the date/time in the EditText
                                 SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.getDefault());
                                 etDateTime.setText(sdf.format(calendar.getTime()));
                             },
@@ -115,16 +125,12 @@ public class AddEventActivity extends AppCompatActivity {
         datePickerDialog.show();
     }
 
-    /**
-     * Loads event categories from Firebase and populates the spinner.
-     */
     private void loadCategories() {
         categoriesRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 categoryList.clear();
                 categoryList.add("Select Category");  // Default placeholder
-                // Loop through categories in database and add them to the list
                 for (DataSnapshot categorySnapshot : snapshot.getChildren()) {
                     String categoryName = categorySnapshot.child("name").getValue(String.class);
                     if (categoryName != null) {
@@ -141,30 +147,23 @@ public class AddEventActivity extends AppCompatActivity {
         });
     }
 
-    /**
-     * Validates input fields and saves the event to Firebase database.
-     */
     private void saveEvent() {
-        // Retrieve input values
         String name = etName.getText().toString().trim();
         String description = etDescription.getText().toString().trim();
         String category = categorySpinner.getSelectedItem() != null ? categorySpinner.getSelectedItem().toString() : "";
         String feeText = etFee.getText().toString().trim();
         String dateTime = etDateTime.getText().toString().trim();
 
-        // Validate event name
         if (name.isEmpty()) {
             etName.setError("Event name is required");
             return;
         }
 
-        // Validate category selection
         if (category.equals("Select Category") || category.isEmpty()) {
             Toast.makeText(this, "Please select a valid category", Toast.LENGTH_SHORT).show();
             return;
         }
 
-        // Validate and parse event fee
         double fee = 0;
         try {
             if (!feeText.isEmpty()) fee = Double.parseDouble(feeText);
@@ -173,7 +172,6 @@ public class AddEventActivity extends AppCompatActivity {
             return;
         }
 
-        // Check if user is authenticated
         if (FirebaseAuth.getInstance().getCurrentUser() == null) {
             Toast.makeText(this, "User not authenticated", Toast.LENGTH_SHORT).show();
             return;
@@ -181,17 +179,22 @@ public class AddEventActivity extends AppCompatActivity {
 
         // Get current logged-in organizer's UID
         String organizerId = FirebaseAuth.getInstance().getCurrentUser().getUid();
-
-        // Generate a unique event ID
-        String eventId = UUID.randomUUID().toString();
-        // Create a new Event object
+        
+        // flag block of code 
+        //String eventId = UUID.randomUUID().toString();
+        // end flag
+        String eventId;
+        if(isEditing && editingEventId != null){
+            eventId = editingEventId;
+        } else {
+            eventId = UUID.randomUUID().toString();
+        }
         Event event = new Event(organizerId, name, description, category, fee, dateTime);
-
-        // Save event to Firebase under the generated event ID
+        event.setId(eventId);
         eventsRef.child(eventId).setValue(event)
                 .addOnSuccessListener(aVoid -> {
                     Toast.makeText(this, "Event saved successfully", Toast.LENGTH_SHORT).show();
-                    finish(); // Close the activity after successful save
+                    finish();
                 })
                 .addOnFailureListener(e -> Toast.makeText(this, "Failed to save: " + e.getMessage(), Toast.LENGTH_LONG).show());
     }
