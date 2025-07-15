@@ -7,22 +7,98 @@
     android:padding="16dp"
     android:layout_marginBottom="8dp">
 
-    <TextView
-        android:id="@+id/txtEventName"
-        android:layout_width="wrap_content"
+    <!-- Event row -->
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/Event_title"
-        android:textSize="18sp"
-        android:textStyle="bold" />
+        android:orientation="horizontal"
+        android:layout_marginBottom="4dp">
 
-    <TextView
-        android:id="@+id/txtEventDate"
-        android:layout_width="wrap_content"
+        <TextView
+            android:id="@+id/labelEventName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Event: "
+            android:textStyle="bold"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/txtEventName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Sample Event Name"
+            android:textSize="16sp" />
+    </LinearLayout>
+
+    <!-- Date row -->
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
-        android:text="@string/Event_description_hint"
-        android:textSize="14sp" />
+        android:orientation="horizontal"
+        android:layout_marginBottom="4dp">
 
+        <TextView
+            android:id="@+id/labelEventDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Date: "
+            android:textStyle="bold"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/txtEventDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="2025-07-15"
+            android:textSize="14sp" />
+    </LinearLayout>
+
+    <!-- Description row -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginBottom="4dp">
+
+        <TextView
+            android:id="@+id/labelEventDescription"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Description: "
+            android:textStyle="bold"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/txtEventDescription"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Event description goes here"
+            android:textSize="14sp" />
+    </LinearLayout>
+
+    <!-- Fee row -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/labelEventFee"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Fee: "
+            android:textStyle="bold"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/txtEventFee"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="$0.00"
+            android:textSize="14sp" />
+    </LinearLayout>
+
+    <!-- Buttons -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
