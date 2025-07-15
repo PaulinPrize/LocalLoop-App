@@ -49,28 +49,33 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.EventViewHol
      */
     @Override
     public void onBindViewHolder(@NonNull EventViewHolder holder, int position) {
-        // Get current event object
         Event event = events.get(position);
-        // Set event name and date in the view
         holder.eventName.setText(event.getName());
         holder.eventDate.setText(event.getDateTime());
 
-        // Set up delete button with confirmation dialog
         holder.btnDelete.setOnClickListener(v -> {
             new AlertDialog.Builder(holder.itemView.getContext())
                     .setTitle("Delete Event")
                     .setMessage("Are you sure you want to delete this event?")
                     .setPositiveButton("Yes", (dialog, which) -> {
-                        // Delete event from Firebase (using its unique ID)
+
+                        // Use getAdapterPosition safely
+                        int currentPos = holder.getAdapterPosition();
+
+                        // Validate position
+                        if (currentPos == RecyclerView.NO_POSITION || currentPos >= events.size()) return;
+
+                        Event eventToDelete = events.get(currentPos);
+
                         FirebaseDatabase.getInstance().getReference("events")
-                                .child(event.getId())  // Make sure Event contains its Firebase ID!
+                                .child(eventToDelete.getId())
                                 .removeValue()
                                 .addOnSuccessListener(aVoid -> {
-                                    // Remove from local list and update RecyclerView
-                                    Toast.makeText(holder.itemView.getContext(), "Event deleted", Toast.LENGTH_SHORT).show();
-                                    events.remove(position);
-                                    notifyItemRemoved(position);
-                                    notifyItemRangeChanged(position, events.size());
+                                    if (currentPos < events.size()) {
+                                        events.remove(currentPos);
+                                        notifyItemRemoved(currentPos);
+                                        Toast.makeText(holder.itemView.getContext(), "Event deleted", Toast.LENGTH_SHORT).show();
+                                    }
                                 })
                                 .addOnFailureListener(e -> {
                                     Toast.makeText(holder.itemView.getContext(), "Failed to delete", Toast.LENGTH_SHORT).show();
@@ -80,6 +85,7 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.EventViewHol
                     .show();
         });
     }
+
 
     /**
      * Returns the number of events in the list.
