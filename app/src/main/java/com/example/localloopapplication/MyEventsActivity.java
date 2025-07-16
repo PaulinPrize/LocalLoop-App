@@ -41,7 +41,6 @@ public class MyEventsActivity extends AppCompatActivity {
 
         // Find views
         recyclerView = findViewById(R.id.recyclerViewMyEvents);
-        txtNoEvents = findViewById(R.id.txtNoEvents);
 
         // Set up RecyclerView with linear layout and adapter
         recyclerView.setLayoutManager(new LinearLayoutManager(this));

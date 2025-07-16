@@ -81,8 +81,8 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.EventViewHol
             super(itemView);
             eventName = itemView.findViewById(R.id.txtEventName);
             eventDate = itemView.findViewById(R.id.txtEventDate);
-            eventDescription = itemView.findViewById(R.id.txtEventDescription);
-            eventFee = itemView.findViewById(R.id.txtEventFee);
+            eventDescription = itemView.findViewById(R.id.etEventDescription);
+            eventFee = itemView.findViewById(R.id.etEventFee);
             btnDelete = itemView.findViewById(R.id.btnDelete);
         }
     }

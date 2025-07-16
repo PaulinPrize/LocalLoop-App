@@ -40,8 +40,8 @@ public class CategoryAdapter extends ArrayAdapter<Category> {
         // Find views in the row layout
         TextView tvName = convertView.findViewById(R.id.tvCategoryName);
         TextView tvDesc = convertView.findViewById(R.id.tvCategoryDescription);
-        Button btnEdit = convertView.findViewById(R.id.btnCatEdit);
-        ImageButton btnDelete = convertView.findViewById(R.id.btnDelete);
+        Button btnEdit = convertView.findViewById(R.id.btnEdit);
+        Button btnDelete = convertView.findViewById(R.id.btnDelete);
 
         // Set text values from the category object
         tvName.setText(category.getName());
