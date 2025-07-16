@@ -2,138 +2,114 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="16dp"
-    android:orientation="vertical"
-    android:background="#fffaf5">
+    android:padding="12dp"
+    android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="12dp"
-        android:background="#ffffff"
-        android:elevation="2dp">
-
-        <!-- User Info -->
-        <TextView
-            android:id="@+id/tvUserInfoTitle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/user_information"
-            android:textSize="20sp"
-            android:textStyle="bold"
-            android:textColor="#6d4c41" />
-
-        <TextView
-            android:id="@+id/fullName"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/user_full_name"
-            android:textSize="16sp"
-            android:textColor="#6d4c41" />
-
-        <TextView
-            android:id="@+id/email"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/user_email"
-            android:textColor="#7c6f66" />
-
-        <TextView
-            android:id="@+id/role"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/user_role"
-            android:textColor="#7c6f66" />
-
-        <TextView
-            android:id="@+id/status"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Status"
-            android:textSize="16sp"
-            android:textColor="#7c6f66"
-            android:paddingTop="4dp" />
-
-        <Space
-            android:layout_width="match_parent"
-            android:layout_height="16dp" />
-
-        <!-- User Settings -->
-        <TextView
-            android:id="@+id/tvUserSettingsTitle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/user_settings"
-            android:textSize="20sp"
-            android:textStyle="bold"
-            android:textColor="#6d4c41" />
+        android:padding="12dp">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:orientation="horizontal"
-            android:gravity="center"
-            android:weightSum="3">
+            android:orientation="vertical">
 
-            <Button
-                android:id="@+id/btnEdit"
-                android:layout_width="0dp"
-                android:layout_height="48dp"
-                android:layout_weight="1"
-                android:text="@string/user_edit_button"
-                android:textColor="#ffffff"
-                android:backgroundTint="#6d4c41"
-                android:layout_marginEnd="6dp"
-                android:layout_marginStart="0dp"
-                android:elevation="2dp"
-                android:letterSpacing="0.05"
-                android:textSize="14sp"
-                android:padding="0dp" />
+            <TextView
+                android:id="@+id/tvUserInfoTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/user_information"
+                android:textSize="20sp"
+                android:textStyle="bold" />
 
-            <Button
-                android:id="@+id/btnReactivate"
-                android:layout_width="0dp"
-                android:layout_height="48dp"
-                android:layout_weight="1"
-                android:text="@string/user_statut"
-                android:textColor="#ffffff"
-                android:backgroundTint="#AB7E7E"
-                android:layout_marginHorizontal="6dp"
-                android:elevation="2dp"
-                android:letterSpacing="0.05"
-                android:textSize="14sp"
-                android:padding="0dp" />
+            <TextView
+                android:id="@+id/fullName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/user_full_name"
+                android:textSize="16sp" />
 
-            <Button
-                android:id="@+id/btnDelete"
-                android:layout_width="0dp"
-                android:layout_height="48dp"
-                android:layout_weight="1"
-                android:text="@string/user_delete"
-                android:textColor="#ffffff"
-                android:backgroundTint="#d32f2f"
-                android:layout_marginStart="6dp"
-                android:elevation="2dp"
-                android:letterSpacing="0.05"
-                android:textSize="14sp"
-                android:padding="0dp" />
+            <TextView
+                android:id="@+id/email"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/user_email" />
+
+            <TextView
+                android:id="@+id/role"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/user_role" />
+
+            <TextView
+                android:id="@+id/status"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Status"
+                android:textSize="16sp"
+                android:paddingTop="4dp"/>
         </LinearLayout>
-
-
 
         <Space
             android:layout_width="match_parent"
             android:layout_height="15dp" />
 
-        <!-- Delete Confirmation (initially hidden) -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tvUserSettingsTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/user_settings"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:gravity="end"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/btnEdit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/user_edit_button" />
+
+                <Button
+                    android:id="@+id/btnReactivate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:backgroundTint="#AB7E7E"
+                    android:text="@string/user_statut" />
+
+                <Button
+                    android:id="@+id/btnDelete"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:backgroundTint="#D73434"
+                    android:text="@string/user_delete" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="15dp" />
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:visibility="gone"
-            android:paddingTop="8dp">
+            android:visibility="gone">
 
             <TextView
                 android:id="@+id/tvUserMessageTitle"
@@ -141,41 +117,38 @@
                 android:layout_height="wrap_content"
                 android:text="@string/confirmation_deleteTextView"
                 android:textSize="20sp"
-                android:textStyle="bold"
-                android:textColor="#6d4c41" />
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/textView7"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/confirmation_delete"
-                android:textColor="#7c6f66" />
+                android:text="@string/confirmation_delete" />
 
             <LinearLayout
                 android:id="@+id/tvConfirmationMSG"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:gravity="center"
-                android:layout_marginTop="8dp">
+                android:orientation="horizontal">
 
                 <Button
                     android:id="@+id/btnYes"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/yES_delete"
-                    android:textColor="#ffffff"
-                    android:backgroundTint="#388e3c"
-                    android:layout_marginEnd="8dp" />
+                    android:layout_weight="1"
+                    android:backgroundTint="#79941A"
+                    android:text="@string/yES_delete" />
 
                 <Button
                     android:id="@+id/btnNo"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/nO_delete"
-                    android:textColor="#ffffff"
-                    android:backgroundTint="#009688" />
+                    android:layout_weight="1"
+                    android:backgroundTint="#009688"
+                    android:text="@string/nO_delete" />
             </LinearLayout>
+
         </LinearLayout>
     </LinearLayout>
+
 </LinearLayout>

@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="16dp"
-    android:background="#fffaf5">
+    android:padding="12dp">
 
     <Space
         android:layout_width="match_parent"
@@ -17,8 +15,7 @@
         android:layout_height="wrap_content"
         android:text="@string/listUsers"
         android:textSize="20sp"
-        android:textStyle="bold"
-        android:textColor="#6d4c41" />
+        android:textStyle="bold" />
 
     <Space
         android:layout_width="match_parent"
@@ -28,9 +25,9 @@
         android:id="@+id/listViewUsers"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"
-        android:background="#ffffff"
-        android:dividerHeight="8dp" />
+        android:layout_weight="1">
+
+    </ListView>
 
     <Space
         android:layout_width="match_parent"
@@ -40,11 +37,8 @@
         android:id="@+id/btnAddUser"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="start"
+        android:layout_gravity="left"
         android:layout_marginBottom="12dp"
-        android:text="@string/add_user_button"
-        android:textColor="#ffffff"
-        android:backgroundTint="#6d4c41"
-        android:padding="12dp" />
+        android:text="@string/add_user_button" />
 
 </LinearLayout>
