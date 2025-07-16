@@ -1,3 +1,4 @@
+
 package com.example.localloopapplication;
 
 import android.app.AlertDialog;
@@ -66,6 +67,17 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.EventViewHol
                     .setNegativeButton("No", null)
                     .show();
         });
+        
+        holder.btnEdit.setOnClickListener(v -> {
+            Intent intent = new Intent(holder.itemView.getContext(), AddEventActivity.class);
+            intent.putExtra("eventId", event.getId());
+            intent.putExtra("eventName", event.getName());
+            intent.putExtra("eventDescription", event.getDescription());
+            intent.putExtra("eventFee", event.getFee());
+            intent.putExtra("eventDateTime", event.getDateTime());
+            intent.putExtra("eventCategory", event.getCategory());
+            holder.itemView.getContext().startActivity(intent);
+        });
     }
 
     @Override
@@ -84,6 +96,7 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.EventViewHol
             eventDescription = itemView.findViewById(R.id.txtEventDescription);
             eventFee = itemView.findViewById(R.id.txtEventFee);
             btnDelete = itemView.findViewById(R.id.btnDelete);
+            btnEdit = itemView.findViewById(R.id.btnEdit);
         }
     }
 }
