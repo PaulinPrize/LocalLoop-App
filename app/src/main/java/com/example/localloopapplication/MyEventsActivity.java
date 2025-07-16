@@ -73,9 +73,8 @@ public class MyEventsActivity extends AppCompatActivity {
 
                 for (DataSnapshot eventSnapshot : snapshot.getChildren()) {
                     Event event = eventSnapshot.getValue(Event.class);
-                    // Only include events organized by the current user
-                    if (event != null && event.getOrganizerId().equals(currentUserId)) {
-                        event.setId(eventSnapshot.getKey()); // Set event's Firebase key as ID
+                    if (event != null && currentUserId != null && currentUserId.equals(event.getOrganizerId())) {
+                        event.setId(eventSnapshot.getKey());
                         eventList.add(event);
                     }
                 }

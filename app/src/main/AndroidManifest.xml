@@ -20,6 +20,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <activity android:name=".RegisterActivity" android:exported="false" />
         <activity android:name=".WelcomeActivity" android:exported="false" />
         <activity android:name=".MainActivity" android:exported="false" />
@@ -29,16 +30,10 @@
         <activity android:name=".AddUserActivity" />
         <activity android:name=".AddEventActivity" />
         <activity android:name=".MyEventsActivity" />
+
+        <!-- Declaration for EditEventActivity -->
+        <activity android:name=".EditEventActivity" android:exported="false" />
+
     </application>
+
 </manifest>
-
-
-
-
-
-
-
-
-
-
-

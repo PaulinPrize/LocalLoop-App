@@ -1,6 +1,7 @@
 package com.example.localloopapplication;
 
 import android.app.AlertDialog;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -37,8 +38,23 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.EventViewHol
         holder.eventName.setText(event.getName());
         holder.eventDate.setText(event.getDateTime());
         holder.eventDescription.setText(event.getDescription());
-        holder.eventFee.setText("Fee: $" + event.getFee());
 
+        // Format fee with two decimals
+        double feeValue = event.getFee();
+        holder.eventFee.setText(String.format("$%.2f", feeValue));
+
+        // Edit button listener: open EditEventActivity with event data
+        holder.btnEdit.setOnClickListener(v -> {
+            Intent intent = new Intent(holder.itemView.getContext(), EditEventActivity.class);
+            intent.putExtra("eventId", event.getId());
+            intent.putExtra("eventName", event.getName());
+            intent.putExtra("eventDateTime", event.getDateTime());  // Key matches EditEventActivity
+            intent.putExtra("eventDescription", event.getDescription());
+            intent.putExtra("eventFee", feeValue);
+            holder.itemView.getContext().startActivity(intent);
+        });
+
+        // Delete button listener: ask confirmation and delete event in Firebase
         holder.btnDelete.setOnClickListener(v -> {
             new AlertDialog.Builder(holder.itemView.getContext())
                     .setTitle("Delete Event")
@@ -75,7 +91,7 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.EventViewHol
 
     public static class EventViewHolder extends RecyclerView.ViewHolder {
         TextView eventName, eventDate, eventDescription, eventFee;
-        Button btnDelete;
+        Button btnDelete, btnEdit;
 
         public EventViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -84,6 +100,7 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.EventViewHol
             eventDescription = itemView.findViewById(R.id.txtEventDescription);
             eventFee = itemView.findViewById(R.id.txtEventFee);
             btnDelete = itemView.findViewById(R.id.btnDelete);
+            btnEdit = itemView.findViewById(R.id.btnEdit);
         }
     }
 }
