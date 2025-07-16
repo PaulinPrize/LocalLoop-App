@@ -85,20 +85,17 @@ public class AddEventActivity extends AppCompatActivity {
     private void showDateTimePicker() {
         final Calendar calendar = Calendar.getInstance();
 
-        // Show date picker dialog
         DatePickerDialog datePickerDialog = new DatePickerDialog(this,
                 (view, year, month, dayOfMonth) -> {
                     calendar.set(Calendar.YEAR, year);
                     calendar.set(Calendar.MONTH, month);
                     calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
 
-                    // Show time picker dialog after date is selected
                     TimePickerDialog timePickerDialog = new TimePickerDialog(this,
                             (timeView, hourOfDay, minute) -> {
                                 calendar.set(Calendar.HOUR_OF_DAY, hourOfDay);
                                 calendar.set(Calendar.MINUTE, minute);
 
-                                // Format and set the date/time in the EditText
                                 SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.getDefault());
                                 etDateTime.setText(sdf.format(calendar.getTime()));
                             },
@@ -112,8 +109,12 @@ public class AddEventActivity extends AppCompatActivity {
                 calendar.get(Calendar.MONTH),
                 calendar.get(Calendar.DAY_OF_MONTH));
 
+        //  Empêche les dates passées
+        datePickerDialog.getDatePicker().setMinDate(System.currentTimeMillis() - 1000);
+
         datePickerDialog.show();
     }
+
 
     /**
      * Loads event categories from Firebase and populates the spinner.

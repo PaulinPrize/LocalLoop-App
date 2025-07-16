@@ -23,6 +23,7 @@ public class OrganizerActivity extends AppCompatActivity {
         viewEventsBtn = findViewById(R.id.btnMyEvents);       // View My Events
         btnLogout = findViewById(R.id.btnLogout);             // Logout button
         txtWelcome = findViewById(R.id.txtWelcome);           // Welcome Text
+        Button btnManageRequests = findViewById(R.id.btnManageRequests);
 
         // Set welcome message
         txtWelcome.setText("Welcome! You are logged in as an Organizer.");
@@ -36,6 +37,11 @@ public class OrganizerActivity extends AppCompatActivity {
         // Navigate to MyEventsActivity
         viewEventsBtn.setOnClickListener(v -> {
             Intent intent = new Intent(OrganizerActivity.this, MyEventsActivity.class);
+            startActivity(intent);
+        });
+
+        btnManageRequests.setOnClickListener(v -> {
+            Intent intent = new Intent(OrganizerActivity.this, ManageRequestsActivity.class);
             startActivity(intent);
         });
 

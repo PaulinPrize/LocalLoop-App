@@ -2,6 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="com.example.localloopapplication">
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:allowBackup="true"
@@ -30,6 +31,9 @@
         <activity android:name=".AddUserActivity" />
         <activity android:name=".AddEventActivity" />
         <activity android:name=".MyEventsActivity" />
+        <activity android:name=".ParticipantEventBoardActivity" />
+        <activity android:name=".ManageRequestsActivity" android:exported="false" />
+        <activity android:name=".OrganizerActivity" android:exported="false" />
 
         <!-- Declaration for EditEventActivity -->
         <activity android:name=".EditEventActivity" android:exported="false" />

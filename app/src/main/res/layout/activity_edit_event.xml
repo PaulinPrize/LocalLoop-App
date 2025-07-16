@@ -23,11 +23,11 @@
         <EditText
             android:id="@+id/editEventDescription"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Description"
-            android:minLines="3"
+            android:layout_height="41dp"
             android:gravity="top"
-            android:inputType="textMultiLine" />
+            android:hint="Description"
+            android:inputType="textMultiLine"
+            android:minLines="3" />
 
         <EditText
             android:id="@+id/editEventFee"
