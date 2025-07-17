@@ -1,6 +1,7 @@
 package com.example.localloopapplication;
 
 import android.app.AlertDialog;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,7 +27,7 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.EventViewHol
     @NonNull
     @Override
     public EventViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_event, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_event2, parent, false);
         return new EventViewHolder(view);
     }
 
@@ -39,6 +40,7 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.EventViewHol
         holder.eventDescription.setText(event.getDescription());
         holder.eventFee.setText("Fee: $" + event.getFee());
 
+        // Delete button click listener
         holder.btnDelete.setOnClickListener(v -> {
             new AlertDialog.Builder(holder.itemView.getContext())
                     .setTitle("Delete Event")
@@ -66,6 +68,18 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.EventViewHol
                     .setNegativeButton("No", null)
                     .show();
         });
+
+        // Edit button click listener
+        holder.btnEdit.setOnClickListener(v -> {
+            Intent intent = new Intent(holder.itemView.getContext(), EditEventActivity.class);
+            intent.putExtra("eventId", event.getId());
+            intent.putExtra("organizerId", event.getOrganizerId());  // Important: pass organizerId
+            intent.putExtra("name", event.getName());
+            intent.putExtra("dateTime", event.getDateTime());
+            intent.putExtra("description", event.getDescription());
+            intent.putExtra("fee", String.valueOf(event.getFee()));
+            holder.itemView.getContext().startActivity(intent);
+        });
     }
 
     @Override
@@ -75,7 +89,7 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.EventViewHol
 
     public static class EventViewHolder extends RecyclerView.ViewHolder {
         TextView eventName, eventDate, eventDescription, eventFee;
-        Button btnDelete;
+        Button btnDelete, btnEdit;
 
         public EventViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -84,6 +98,7 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.EventViewHol
             eventDescription = itemView.findViewById(R.id.etEventDescription);
             eventFee = itemView.findViewById(R.id.etEventFee);
             btnDelete = itemView.findViewById(R.id.btnDelete);
+            btnEdit = itemView.findViewById(R.id.btnEdit); // Make sure btnEdit exists in your layout
         }
     }
 }

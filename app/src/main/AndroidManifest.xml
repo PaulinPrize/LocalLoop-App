@@ -28,7 +28,8 @@
         <activity android:name=".AddCategoryActivity" android:exported="false" />
         <activity android:name=".AddUserActivity" />
         <activity android:name=".AddEventActivity" />
-        <activity android:name=".MyEventsActivity" />
+        <activity android:name=".MyEventsActivity" android:exported="false" />
+        <activity android:name=".EditEventActivity" />
     </application>
 </manifest>
 
