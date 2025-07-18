@@ -39,9 +39,9 @@ public class SearchEventsActivity extends AppCompatActivity {
         eventAdapter = new ParticipantEventAdapter(this, filteredEventList);
         recyclerView.setAdapter(eventAdapter);
 
-        setupCategorySpinner();   // Load categories
+        CategorySpinner();   // Load categories
         loadEventsFromFirebase(); // Load all public events
-        setupSearchFilter();      // Add text search
+        SearchFilter();      // Add text search
 
     }
 
@@ -56,7 +56,7 @@ public class SearchEventsActivity extends AppCompatActivity {
                             fullEventList.add(event);
 
                         }
-                        applyFilters(); // Apply current search/category
+                        applyFilters();
                     }
 
                     @Override
@@ -64,7 +64,7 @@ public class SearchEventsActivity extends AppCompatActivity {
                 });
     }
 
-    private void setupSearchFilter() {
+    private void SearchFilter() {
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
@@ -82,7 +82,7 @@ public class SearchEventsActivity extends AppCompatActivity {
     private ArrayList<String> categories = new ArrayList<>();
     private ArrayAdapter<String> categoryAdapter;
 
-    private void setupCategorySpinner() {
+    private void CategorySpinner() {
         categories.add("All");  // Default option
 
         categoryAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, categories);
@@ -104,7 +104,7 @@ public class SearchEventsActivity extends AppCompatActivity {
                     }
 
                     @Override
-                    public void onCancelled(@NonNull DatabaseError error) {}
+                    public void onCancelled(@NonNull DatabaseError error) {}// chatgpt to stop errors
                 });
 
         // Handle spinner selection

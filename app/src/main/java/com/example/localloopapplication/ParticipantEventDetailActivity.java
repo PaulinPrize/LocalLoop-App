@@ -16,7 +16,6 @@ public class ParticipantEventDetailActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.participant_item_event);
 
-        // Bind views
         txtName = findViewById(R.id.txtEventName);
         txtDateTime = findViewById(R.id.txtEventDateTime);
         txtCategory = findViewById(R.id.txtEventCategory);
@@ -24,14 +23,14 @@ public class ParticipantEventDetailActivity extends AppCompatActivity {
         txtDescription = findViewById(R.id.txtEventDescription);
         btnRequestToJoin = findViewById(R.id.btnRequestToJoin);
 
-        // Get event details from intent
+
         String name = getIntent().getStringExtra("name");
         String dateTime = getIntent().getStringExtra("dateTime");
         String category = getIntent().getStringExtra("category");
         String fee = String.valueOf(getIntent().getDoubleExtra("fee", 0.0));
         String description = getIntent().getStringExtra("description");
 
-        // Set views
+
         txtName.setText(name);
         txtDateTime.setText("Date/Time: " + dateTime);
         txtCategory.setText("Category: " + category);
