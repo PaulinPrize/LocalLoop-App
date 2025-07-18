@@ -43,6 +43,8 @@ public class ParticipantEventAdapter extends RecyclerView.Adapter<ParticipantEve
             intent.putExtra("name", event.getName());
             intent.putExtra("dateTime", event.getDateTime());
             intent.putExtra("category", event.getCategory());
+            intent.putExtra("description", event.getDescription());
+            intent.putExtra("fee", event.getFee());
             context.startActivity(intent);
         });
     }
