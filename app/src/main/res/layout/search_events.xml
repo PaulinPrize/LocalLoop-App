@@ -2,18 +2,27 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="16dp">
+    android:padding="25dp"
+    android:background="#fffaf5"
+    android:fitsSystemWindows="true">
 
     <SearchView
         android:id="@+id/searchView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:queryHint="Search events..." />
+        android:queryHint="Search"
+        android:iconifiedByDefault="false"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:clickable="true"
+        android:textColor="#6d4c41"
+        android:textColorHint="#aaa193"/>
 
     <Spinner
         android:id="@+id/categorySpinner"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:textColor="#6d4c41"
         android:layout_marginTop="8dp" />
 
     <androidx.recyclerview.widget.RecyclerView

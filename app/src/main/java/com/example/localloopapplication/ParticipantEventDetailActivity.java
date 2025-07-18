@@ -38,10 +38,5 @@ public class ParticipantEventDetailActivity extends AppCompatActivity {
         txtFee.setText("Fee: $" + fee);
         txtDescription.setText(description);
 
-        // Request to join (for now just show a toast)
-        btnRequestToJoin.setOnClickListener(v -> {
-            // You can later implement actual request logic using Firebase
-            Toast.makeText(this, "Request to join sent!", Toast.LENGTH_SHORT).show();
-        });
     }
 }
