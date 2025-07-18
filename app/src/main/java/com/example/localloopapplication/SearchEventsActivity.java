@@ -79,19 +79,35 @@ public class SearchEventsActivity extends AppCompatActivity {
             }
         });
     }
+    private ArrayList<String> categories = new ArrayList<>();
+    private ArrayAdapter<String> categoryAdapter;
+
     private void setupCategorySpinner() {
-        ArrayList<String> categories = new ArrayList<>();
-        categories.add("All");
-        categories.add("Music");
-        categories.add("Art");
-        categories.add("Tech");
-        categories.add("Food");
+        categories.add("All");  // Default option
 
+        categoryAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, categories);
+        categoryAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        categorySpinner.setAdapter(categoryAdapter);
 
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, categories);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        categorySpinner.setAdapter(adapter);
+        // Firebase fetch
+        FirebaseDatabase.getInstance().getReference("event_categories")
+                .addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        for (DataSnapshot categorySnap : snapshot.getChildren()) {
+                            String name = categorySnap.child("name").getValue(String.class);
+                            if (name != null && !categories.contains(name)) {
+                                categories.add(name);
+                            }
+                        }
+                        categoryAdapter.notifyDataSetChanged(); // Update Spinner
+                    }
 
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {}
+                });
+
+        // Handle spinner selection
         categorySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -102,6 +118,7 @@ public class SearchEventsActivity extends AppCompatActivity {
             public void onNothingSelected(AdapterView<?> parent) {}
         });
     }
+
     private void applyFilters() {
         String query = searchView.getQuery().toString().toLowerCase();
         String selectedCategory = categorySpinner.getSelectedItem().toString();
