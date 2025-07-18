@@ -22,7 +22,7 @@ public class SearchEventsActivity extends AppCompatActivity {
     private SearchView searchView;
     private Spinner categorySpinner;
     private RecyclerView recyclerView;
-    private EventAdapter eventAdapter;
+    private ParticipantEventAdapter eventAdapter;
     private ArrayList<Event> fullEventList = new ArrayList<>();
     private ArrayList<Event> filteredEventList = new ArrayList<>();
 
@@ -36,7 +36,7 @@ public class SearchEventsActivity extends AppCompatActivity {
         recyclerView = findViewById(R.id.recyclerViewEvents);
 
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        eventAdapter = new EventAdapter(filteredEventList);
+        eventAdapter = new ParticipantEventAdapter(this, filteredEventList);
         recyclerView.setAdapter(eventAdapter);
 
         setupCategorySpinner();   // Load categories
