@@ -30,6 +30,8 @@
         <activity android:name=".AddEventActivity" />
         <activity android:name=".MyEventsActivity" android:exported="false" />
         <activity android:name=".EditEventActivity" />
+        <activity android:name=".SearchEventsActivity" />
+        <activity android:name=".ParticipantEventDetailActivity" />
     </application>
 </manifest>
 

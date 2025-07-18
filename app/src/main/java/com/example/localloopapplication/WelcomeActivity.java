@@ -78,6 +78,16 @@ public class WelcomeActivity extends AppCompatActivity {
             });
             layout.addView(viewMyEventsButton);
         }
+        if ("Participant".equalsIgnoreCase(role)) {
+            Button searchEventsButton = new Button(this);
+            searchEventsButton.setText("Search Events");
+            searchEventsButton.setOnClickListener(v -> {
+                Intent intent = new Intent(WelcomeActivity.this, SearchEventsActivity.class);
+                startActivity(intent);
+            });
+            layout.addView(searchEventsButton);
+        }
+
 
         // Create a logout button to sign out the user
         Button logoutButton = new Button(this);
