@@ -4,7 +4,10 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.ImageButton;
 import androidx.appcompat.app.AppCompatActivity;
+
+
 
 import com.google.firebase.auth.FirebaseAuth;
 
@@ -17,6 +20,15 @@ public class OrganizerActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_organizer);
+
+
+        //for the backButton , using if just in case the page does not crash if something went wrong
+        ImageButton backButton = findViewById(R.id.backButton);
+        if (backButton != null) {
+            backButton.setOnClickListener(v -> finish());
+        }
+
+
 
         // Link UI elements
         addEventBtn = findViewById(R.id.btnAddEvent);         // Add Event

@@ -11,6 +11,8 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import android.widget.ImageButton;
+
 
 import java.util.ArrayList;
 
@@ -25,6 +27,13 @@ public class UserDetailsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.user_item); //user layout
+
+        //for the backButton , using if just in case the page does not crash if something went wrong
+        ImageButton backButton = findViewById(R.id.backButton);
+        if (backButton != null) {
+            backButton.setOnClickListener(v -> finish());
+        }
+
 
         TextView fullNameText = findViewById(R.id.fullName);
         TextView emailText = findViewById(R.id.email);

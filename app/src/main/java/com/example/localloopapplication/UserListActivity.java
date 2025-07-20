@@ -5,6 +5,8 @@ import android.widget.ListView;
 import android.widget.Toast;
 import android.content.Intent;
 import android.widget.Button;
+import android.widget.ImageButton;
+
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -35,8 +37,18 @@ public class UserListActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
 
+
         // Set the activity layout to display user list
         setContentView(R.layout.activity_user_list);
+
+
+        //for the backButton , using if just in case the page does not crash if something went wrong
+        ImageButton backButton = findViewById(R.id.backButton);
+        if (backButton != null) {
+            backButton.setOnClickListener(v -> finish());
+        }
+
+
 
         Button btnAddUser = findViewById(R.id.btnAddUser);
 

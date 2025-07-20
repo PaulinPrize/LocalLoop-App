@@ -2,6 +2,7 @@ package com.example.localloopapplication;
 
 import android.os.Bundle;
 import android.widget.TextView;
+import android.widget.ImageButton;
 import android.widget.Button;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
@@ -15,6 +16,12 @@ public class ParticipantEventDetailActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.participant_item_event);
+
+        ImageButton backButton = findViewById(R.id.backButton);
+        if (backButton != null) {
+            backButton.setOnClickListener(v -> finish());
+        }
+
 
         txtName = findViewById(R.id.txtEventName);
         txtDateTime = findViewById(R.id.txtEventDateTime);

@@ -28,6 +28,7 @@ public class UserAdapter extends ArrayAdapter<User> {
 
     /**
      * Constructor for the adapter.
+     *
      * @param context The activity context
      * @param users   The list of users to display
      */

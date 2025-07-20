@@ -65,6 +65,9 @@
     <!-- Buttons -->
     <string name="edit_button">Edit</string>
     <string name="delete_button">Delete</string>
+    <string name="back_button">Back</string>
+
+
 
     <!-- User Info -->
     <string name="user_information">User Information</string>

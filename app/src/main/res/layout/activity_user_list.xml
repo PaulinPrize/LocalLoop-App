@@ -7,6 +7,16 @@
     android:padding="16dp"
     android:background="#fffaf5">
 
+    <ImageButton
+        android:id="@+id/backButton"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:src="@drawable/ic_arrow_back"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:contentDescription="@string/back_button"
+        android:layout_margin="16dp"
+        android:padding="12dp" />
+
     <Space
         android:layout_width="match_parent"
         android:layout_height="18dp" />

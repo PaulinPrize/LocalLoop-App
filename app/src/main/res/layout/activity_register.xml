@@ -9,6 +9,16 @@
     android:background="#fffaf5"
     tools:context=".YourActivityName">
 
+    <ImageButton
+        android:id="@+id/backButton"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:src="@drawable/ic_arrow_back"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:contentDescription="@string/back_button"
+        android:layout_margin="16dp"
+        android:padding="12dp" />
+
     <TextView
         android:id="@+id/textView"
         android:layout_width="wrap_content"
@@ -54,7 +64,7 @@
         android:layout_width="0dp"
         android:layout_height="48dp"
         android:layout_marginTop="12dp"
-        android:hint="@string/email_text_hint"
+        android:hint="Enter your email"
         android:inputType="textEmailAddress"
         android:textColor="#6d4c41"
         android:textColorHint="#aaa193"
@@ -69,7 +79,7 @@
         android:layout_width="0dp"
         android:layout_height="48dp"
         android:layout_marginTop="12dp"
-        android:hint="@string/password_text_hint"
+        android:hint="Enter your password"
         android:inputType="textPassword"
         android:textColor="#6d4c41"
         android:textColorHint="#aaa193"

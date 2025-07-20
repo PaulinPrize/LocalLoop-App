@@ -5,6 +5,7 @@ import android.widget.Spinner;
 import android.widget.ArrayAdapter;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ImageButton;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -30,6 +31,12 @@ public class SearchEventsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.search_events);
+
+        ImageButton backButton = findViewById(R.id.backButton);
+        if (backButton != null) {
+            backButton.setOnClickListener(v -> finish());
+        }
+
 
         searchView = findViewById(R.id.searchView);
         categorySpinner = findViewById(R.id.categorySpinner);

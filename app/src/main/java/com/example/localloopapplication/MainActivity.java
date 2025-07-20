@@ -1,6 +1,7 @@
 package com.example.localloopapplication;
 
 import android.os.Bundle;
+import android.widget.ImageButton;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -26,6 +27,8 @@ public class MainActivity extends AppCompatActivity {
 
         // Set the layout for the activity
         setContentView(R.layout.activity_main);
+
+
 
         // Apply window insets to handle padding for system bars (status bar, nav bar, etc.)
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {

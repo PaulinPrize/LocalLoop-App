@@ -6,25 +6,45 @@
     android:background="#fffaf5"
     android:fitsSystemWindows="true">
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="start">
+
+        <ImageButton
+            android:id="@+id/backButton"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:src="@drawable/ic_arrow_back"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="@string/back_button"
+            android:padding="8dp"
+            android:layout_marginBottom="8dp" />
+    </LinearLayout>
+
+    <!-- Search Bar -->
     <SearchView
         android:id="@+id/searchView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginHorizontal="8dp"
         android:queryHint="Search"
         android:iconifiedByDefault="false"
         android:focusable="true"
         android:focusableInTouchMode="true"
-        android:clickable="true"
-        android:textColor="#6d4c41"
-        android:textColorHint="#aaa193"/>
+        android:clickable="true" />
 
+    <!-- Category Filter Spinner -->
     <Spinner
         android:id="@+id/categorySpinner"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textColor="#6d4c41"
-        android:layout_marginTop="8dp" />
+        android:layout_height="48dp"
+        android:padding="8dp"
+        android:layout_marginTop="12dp"
+        android:backgroundTint="#6d4c41" />
 
+    <!-- Event List RecyclerView -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerViewEvents"
         android:layout_width="match_parent"

@@ -6,6 +6,7 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.ArrayAdapter;
 import android.widget.Toast;
+import android.widget.ImageButton;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -22,6 +23,8 @@ public class AddUserActivity extends AppCompatActivity {
     private EditText edtFirstName, edtLastName, edtEmail;
     private Spinner spinnerRole;
     private Button btnSave;
+
+    private ImageButton backButton;
 
     // Reference to the "users" table in Firebase
     private DatabaseReference usersRef;
@@ -45,6 +48,13 @@ public class AddUserActivity extends AppCompatActivity {
         edtEmail = findViewById(R.id.edtEmail);
         spinnerRole = findViewById(R.id.spinnerRole);
         btnSave = findViewById(R.id.btnSaveUser);
+
+        //for the backButton , using if just in case the page does not crash if something went wrong
+        ImageButton backButton = findViewById(R.id.backButton);
+        if (backButton != null) {
+            backButton.setOnClickListener(v -> finish());
+        }
+
 
         // Set up the role spinner with values from resources
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,

@@ -8,6 +8,9 @@
     android:layout_marginBottom="8dp"
     android:elevation="2dp">
 
+
+
+
     <TextView
         android:id="@+id/txtEventName"
         android:layout_width="wrap_content"

@@ -4,7 +4,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.widget.ListView;
 import android.widget.TextView;
+
 import android.widget.Toast;
+import android.widget.ImageButton;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -34,6 +36,8 @@ public class AdminWelcomeActivity extends AppCompatActivity {
     // List to store User objects
     private ArrayList<User> userList;
 
+    private ImageButton backButton;
+
     /**
      * Called when the activity is starting. Initializes UI, sets up adapter, and loads user data.
      */
@@ -41,6 +45,13 @@ public class AdminWelcomeActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_admin_welcome);
+
+        //for the backButton , using if just in case the page does not crash if something went wrong
+        ImageButton backButton = findViewById(R.id.backButton);
+        if (backButton != null) {
+            backButton.setOnClickListener(v -> finish());
+        }
+
 
         // Initialize UI components
         welcomeText = findViewById(R.id.welcomeText);

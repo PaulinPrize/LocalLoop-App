@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -32,6 +33,8 @@ public class AddEventActivity extends AppCompatActivity {
     private Spinner categorySpinner;
     private Button btnSave;
 
+    private ImageButton backButton;
+
     private DatabaseReference eventsRef, categoriesRef;
 
     private ArrayList<String> categoryList = new ArrayList<>();
@@ -51,6 +54,13 @@ public class AddEventActivity extends AppCompatActivity {
         etFee = findViewById(R.id.etEventFee);
         etDateTime = findViewById(R.id.etEventDateTime);
         btnSave = findViewById(R.id.btnSaveEvent);
+
+        //for the backButton , using if just in case the page does not crash if something went wrong
+        ImageButton backButton = findViewById(R.id.backButton);
+        if (backButton != null) {
+            backButton.setOnClickListener(v -> finish());
+        }
+
 
         categoryAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, categoryList);
         categorySpinner.setAdapter(categoryAdapter);

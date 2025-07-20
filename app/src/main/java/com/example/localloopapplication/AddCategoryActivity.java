@@ -8,6 +8,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
 import android.widget.EditText;
+import android.widget.ImageButton;
+
 
 // Activity to add or edit an event category
 // Contains UI initialization in onCreate, and a method to save or update the category in Firebase
@@ -16,6 +18,8 @@ public class AddCategoryActivity extends AppCompatActivity {
     // UI elements for input fields and submit button
     private EditText etCategoryName, etCategoryDescription;
     private Button btnSubmit;
+
+    private ImageButton backButton;
 
     // Reference to Firebase Realtime Database for categories
     private DatabaseReference categoryRef;
@@ -33,6 +37,14 @@ public class AddCategoryActivity extends AppCompatActivity {
         etCategoryName = findViewById(R.id.categoryTextView);
         etCategoryDescription = findViewById(R.id.etCategoryDescription);
         btnSubmit = findViewById(R.id.btnSubmitCategory);
+
+        //for the backButton , using if just in case the page does not crash if something went wrong
+        ImageButton backButton = findViewById(R.id.backButton);
+        if (backButton != null) {
+            backButton.setOnClickListener(v -> finish());
+        }
+
+
 
         // Initialize Firebase database reference to the "event_categories" node
         categoryRef = FirebaseDatabase.getInstance().getReference("event_categories");
