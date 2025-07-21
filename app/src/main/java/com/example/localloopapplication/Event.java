@@ -12,6 +12,7 @@ public class Event {
     private String categoryId; // Category identifier or name
     private double fee; // Participation fee
     private String dateTime; // Date and time of the event
+    private String category;
 
     /**
      * Default constructor required for Firebase data mapping.

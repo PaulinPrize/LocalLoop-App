@@ -35,10 +35,11 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.EventViewHol
     public void onBindViewHolder(@NonNull EventViewHolder holder, int position) {
         Event event = events.get(position);
 
-        holder.eventName.setText(event.getName());
-        holder.eventDate.setText(event.getDateTime());
-        holder.eventDescription.setText(event.getDescription());
+        holder.eventName.setText("Name : " +event.getName());
+        holder.eventDate.setText("Date|Time: " +event.getDateTime());
+        holder.eventDescription.setText("Description: " +event.getDescription());
         holder.eventFee.setText("Fee: $" + event.getFee());
+        holder.eventCategory.setText("Category: " + event.getCategory());
 
         // Delete button click listener
         holder.btnDelete.setOnClickListener(v -> {
@@ -88,7 +89,7 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.EventViewHol
     }
 
     public static class EventViewHolder extends RecyclerView.ViewHolder {
-        TextView eventName, eventDate, eventDescription, eventFee;
+        TextView eventName, eventDate, eventDescription, eventFee, eventCategory;
         Button btnDelete, btnEdit;
 
         public EventViewHolder(@NonNull View itemView) {
@@ -96,6 +97,7 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.EventViewHol
             eventName = itemView.findViewById(R.id.txtEventName);
             eventDate = itemView.findViewById(R.id.txtEventDate);
             eventDescription = itemView.findViewById(R.id.etEventDescription);
+            eventCategory = itemView.findViewById(R.id.txtEventCategory);
             eventFee = itemView.findViewById(R.id.etEventFee);
             btnDelete = itemView.findViewById(R.id.btnDelete);
             btnEdit = itemView.findViewById(R.id.btnEdit); // Make sure btnEdit exists in your layout
